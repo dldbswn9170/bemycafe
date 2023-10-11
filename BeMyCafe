@@ -1,0 +1,54 @@
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.WindowConstants;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+    
+
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+
+
+
+public class BeMyCafe extends JFrame {
+	public BeMyCafe() {
+		setTitle("Be My Cafe"); 					// 프레임 타이틀
+		setSize(500, 500);      					// 프레임 크기
+		setVisible(true);      						// 화면에 프레임 출력
+		setResizable(false);						// 사이즈 재조정 불가능
+		setLocationRelativeTo(null);				// 창이 가운데에 뜨도록 함
+		setDefaultCloseOperation(EXIT_ON_CLOSE);	// 창을 끄면 프로그램을 종료
+	}
+	public void Button() {
+		setLayout(null);
+		JButton button1 = new JButton("시작");
+		button1.setBounds(200, 250, 100, 50);
+		add(button1);
+		this.setVisible(true);
+		
+		// 시작버튼 클릭시 다음 화면으로 넘어가게 하는 함수
+		button1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new BeMyCafe();
+				setVisible(false); // 창 안보이게
+				new subScreen1();
+			}
+		});
+		
+	}
+
+
+	
+	
+	public static void main(String[] args) {
+		BeMyCafe frame = new BeMyCafe();
+		frame.Button();
+	}	
+}
+
+
+
