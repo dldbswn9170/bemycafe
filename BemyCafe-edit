@@ -1,0 +1,58 @@
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+public class BeMyCafe extends JFrame {
+
+	JButton startbt;
+	BufferedImage img = null;
+
+	public static void main(String[] args) {
+		new BeMyCafe();
+	}
+
+	public BeMyCafe() {
+		BeMyCafeFrame();
+	}
+
+	public void BeMyCafeFrame() {
+		setTitle("Be My Cafe"); // 프레임 타이틀
+		setSize(922, 518); // 프레임 크기
+		setResizable(false); // 사이즈 재조정 불가능
+		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
+		
+		setLayout(null);
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setBounds(0, 0, 922, 518);
+        layeredPane.setLayout(null);
+		
+		try {
+			img = ImageIO.read(new File("src/main-sample.png"));
+		} catch (IOException e) {
+			System.out.println("이미지 로딩 실패");
+			System.exit(0);
+		}
+
+		BeMyCafePanel startpn = new BeMyCafePanel();
+		startpn.setBounds(0, 0, 922, 518);
+
+		startbt = new JButton(new ImageIcon("src/start-bt.png"));
+		startbt.setBounds(301, 356, 341, 101);
+		
+		layeredPane.add(startbt);
+		layeredPane.add(startpn);
+
+		add(layeredPane);
+		setVisible(true); // 화면에 프레임 출력
+	}
+
+	class BeMyCafePanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+}
