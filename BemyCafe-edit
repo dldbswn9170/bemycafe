@@ -51,7 +51,7 @@ public class BeMyCafe extends JFrame {
 		startpn.setBounds(0, 0, 922, 519);
 		
 		startbt = new JButton(new ImageIcon("src/start-bt.png"));
-		startbt.setBounds(0, 0, 341, 101);
+		startbt.setBounds(291, 358, 341, 101);
 		startbt.setBorder(null);
 	    
 		layeredPane.add("Center", startbt);
