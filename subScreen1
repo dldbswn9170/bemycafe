@@ -1,0 +1,41 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import java.io.File;
+import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+
+
+// 시작 클릭시 넘어가는 화면 !!
+public class subScreen1 extends Frame {
+	public subScreen1() {
+		JFrame frame = new JFrame("Be My Cafe");
+		
+		frame.setSize(500,500);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// 이곳에 배경화면 넣기 !
+		
+		frame.getContentPane().setLayout(null);
+		JButton button2 = new JButton("힌트");
+		button2.setBounds(300, 30, 150, 30);
+		frame.getContentPane().add(button2);
+		frame.setVisible(true);
+		// 힌트 버튼 클릭 시 !
+		button2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+		        JOptionPane.showMessageDialog(frame, "힌트 창입니다 !! 여기에 힌트를 넣으세요 !!!");
+
+			}
+		});
+		
+	}
+}
