@@ -1,0 +1,31 @@
+package fsdfsg;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.event.*;
+
+public class chaper {
+	JTabbedPane tabpane=new JTabbedPane();
+	JPanel panel=new JPanel();
+	JButton button1=new JButton("Be ready?\n Clik and Let`s start~");
+	
+	public void go() {
+		panel.setLayout(new BorderLayout());
+		tabpane.addTab("게임설명",new Label("들어오는 주문서에 맞게 메뉴를 만든다.",Label.CENTER));
+		tabpane.addTab("레시피",new Label("레시피~~~~",Label.CENTER));
+		tabpane.setSelectedIndex(0);//첫 탭 지정
+			
+		panel.add(tabpane,"Center");
+		panel.add(button1,"South");
+		JFrame frame=new JFrame("Be My Cafe ");
+		frame.getContentPane().add(panel,"Center");
+		frame.setSize(650,500);
+		frame.setVisible(true);//가시성 부여
+		frame.setResizable(false);//창 사이즈 고정
+	}
+	
+	public static void main(String[] arg) {
+		new chaper().go();
+	}
+
+}
+//참고 사이트 : https://blog.naver.com/PostView.nhn?blogId=ygszzang11&logNo=50193727509&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
