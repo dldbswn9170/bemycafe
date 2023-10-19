@@ -1,0 +1,293 @@
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.util.Random;
+
+public class gameStart extends JFrame {
+	Font font = new Font("고양체", Font.BOLD, 15); 
+
+	int secondsRemaining;
+	Timer timer;
+	JLabel timerLabel;
+
+	JButton hintbt;
+	JButton hotWaterButton;
+	JButton icedWaterButton;
+	JButton espressoButton;
+	JButton hotMilkButton;
+	JButton icedMilkButton;
+	JButton iceCubeButton;
+	JButton matchaPowderButton;
+	JButton chocoPowderButton;
+	
+	
+	BufferedImage img = null;
+
+	public gameStart() {
+		gameStartFrame();
+		cursor();
+	}
+	
+	
+	    
+	public void cursor() {
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Image cursorimage = tk.getImage("src/img/cursor.png");
+		Point point = new Point(10, 10);
+		Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
+
+		this.setCursor(cursor);
+	}
+
+	// 팝업창
+	public void popup() {
+		try {
+			// 이미지 파일 불러오기
+			BufferedImage image = ImageIO.read(new File("src/img/recipe.png")); // 팝업 배경 이미지
+
+			// 이미지를 화면에 표시
+			JFrame hintFrame = new JFrame();
+
+			JButton quitbt = new JButton(new ImageIcon("src/img/quit.png"));
+			quitbt.setBounds(425, 15, 50, 50); // 버튼 위치와 크기 설정
+			quitbt.setBorderPainted(false);
+			quitbt.setContentAreaFilled(false); // 버튼 투명하게
+			quitbt.setBorder(null);
+
+			quitbt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					hintFrame.setVisible(false);
+				}
+			});
+
+			hintFrame.add(quitbt);
+
+			hintFrame.setSize(505, 635);
+			hintFrame.setResizable(false);
+			hintFrame.setLocationRelativeTo(null);
+			hintFrame.getContentPane().add(new JLabel(new ImageIcon(image)));
+			hintFrame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void gameStartFrame() {
+		
+		        
+		setTitle("Be My Cafe"); // 프레임 타이틀
+		setSize(922, 519); // 프레임 크기
+		setResizable(false); // 사이즈 재조정 불가능
+		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
+
+		setLayout(null);
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBounds(0, 0, 922, 519);
+		layeredPane.setLayout(null);
+
+		try {
+			img = ImageIO.read(new File("src/img/background.png"));
+		} catch (IOException e) {
+			System.out.println("이미지 로딩 실패");
+			System.exit(0);
+		}
+
+		gameStartPanel hint = new gameStartPanel();
+
+		hint.setBounds(0, 0, 922, 519);
+
+		hintbt = new JButton(new ImageIcon("src/img/hint.png"));
+		hintbt.setBounds(850, 425, 55, 55); // 버튼 위치와 크기 설정
+		hintbt.setBorder(null);
+
+		// 힌트 버튼 클릭시 !
+		hintbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				popup();
+			}
+		});
+			
+		// 메뉴에 맞춰서 재료 넣기 !!
+		hotWaterButton = new JButton("hotWater");
+		hotWaterButton.setBounds(420, 150, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(hotWaterButton);
+				
+
+		icedWaterButton = new JButton("icedWater");
+		icedWaterButton.setBounds(530, 150, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(icedWaterButton);
+
+		espressoButton = new JButton("espresso");
+		espressoButton.setBounds(420, 210, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(espressoButton);
+
+		hotMilkButton = new JButton("hotMilk");
+		hotMilkButton.setBounds(530, 210, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(hotMilkButton);
+
+		icedMilkButton = new JButton("icedMilk");
+		icedMilkButton.setBounds(420, 270, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(icedMilkButton);
+
+		iceCubeButton = new JButton("iceCube");
+		iceCubeButton.setBounds(530, 270, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(iceCubeButton);
+
+		matchaPowderButton = new JButton("matchaPowder");
+		matchaPowderButton.setBounds(420, 330, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(matchaPowderButton);
+
+		chocoPowderButton = new JButton("chocoPowder");
+		chocoPowderButton.setBounds(530, 330, 100, 50); // 예시 위치 및 크기, 조정 가능
+		layeredPane.add(chocoPowderButton);
+		
+		
+		// 인게임 타이머
+		TimerPanel timerPanel = new TimerPanel(1, 30);
+		JPanel timerPanelComponent = timerPanel.createTimerPanel();
+		timerPanelComponent.setBounds(20, 0, 200, 30);
+		layeredPane.add(timerPanelComponent);
+
+		layeredPane.add("Center", hintbt); // 프레임에 버튼 추가 !!
+		layeredPane.add(hint);
+		
+		
+		// 인게임 메뉴판
+		String[] strings = { "따뜻한 아메리카노", "차가운 아메리카노", "따뜻한 카페 라떼", "차가운 카페 라떼", "따뜻한 초코 라떼", "차가운 초코 라떼", "따뜻한 녹차 라떼",
+						"차가운 녹차 라떼" };
+		RandomStringPanel example = new RandomStringPanel(strings);
+		JPanel randomStringPanel = example.createRandomStringPanel();
+		randomStringPanel.setBounds(10, 20, 400, 50); // 패널의 위치와 크기를 설정
+		layeredPane.add(randomStringPanel);
+		add(layeredPane);
+		setVisible(true); // 화면에 프레임 출력
+		
+		
+		// 여기에 만약 -메뉴일 시 버튼 클릭 -정답입니다, -아닙니다 출력
+		
+
+}
+
+
+	private String RandomStringPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	class gameStartPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+
+	public class TimerPanel {
+		private int secondsRemaining;
+		private Timer timer;
+		private JLabel timerLabel;
+
+		public TimerPanel(int minutes, int seconds) {
+			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
+			
+			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
+			
+			// 원하는 글꼴을 설정
+	        timerLabel.setFont(font);
+	       
+			
+	        timer = new Timer(1000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					secondsRemaining--;
+					timerLabel.setText(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
+
+					if (secondsRemaining <= 0) {
+						timer.stop();
+						JOptionPane.showMessageDialog(null, "Time's up!");
+					}
+				}
+			});
+			timer.start(); // 타이머 자동 시작
+		}
+
+		public JPanel createTimerPanel() {
+			JPanel panel = new JPanel();
+			panel.add(timerLabel);
+			return panel;
+		}
+	}
+}
+
+class RandomStringPanel {
+	private String[] strings;
+	private JLabel outputLabel;
+
+	public RandomStringPanel(String[] strings) {
+		this.strings = strings;
+		outputLabel = new JLabel("Random String: ");
+	}
+
+	public JPanel createRandomStringPanel() {
+		JPanel panel = new JPanel();
+		JButton submitButton = new JButton("Submit");
+		Font font1 = new Font("고양체", Font.BOLD, 15); 
+		submitButton.setFont(font1); // 폰트 적용 
+
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Random random = new Random();
+				int randomIndex = random.nextInt(strings.length);
+				String randomString = strings[randomIndex];
+				
+				
+				// 랜덤으로 나온 메뉴들
+				if ("따뜻한 아메리카노".equals(randomString)) {
+	                
+	                
+	            } else if ("차가운 아메리카노".equals(randomString)) {
+	            	 
+	            } else if ("따뜻한 카페 라떼".equals(randomString)) {
+	               
+	            } else if ("차가운 카페 라떼".equals(randomString)) {
+		               
+		        } else if ("따뜻한 초코 라떼".equals(randomString)) {
+		               
+		        } else if ("차가운 초코 라떼".equals(randomString)) {
+		               
+		        } else if ("따뜻한 녹차 라떼".equals(randomString)) {
+		               
+		        } else if ("차가운 녹차 라떼".equals(randomString)) {
+		               
+		        }
+				outputLabel.setText(randomString);
+			}
+			
+			
+		});
+		
+
+		submitButton.setBounds(10, 10, 80, 30);
+		outputLabel.setBounds(100, 10, 200, 30);
+		
+		Font font = new Font("고양체", Font.BOLD, 15); 
+		outputLabel.setFont(font); // 폰트 적용 
+		panel.setLayout(null); // 레이아웃을 null로 설정
+		panel.add(submitButton);
+		panel.add(outputLabel);
+		
+		
+		return panel;
+	}
+}
