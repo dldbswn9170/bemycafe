@@ -1,0 +1,56 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+
+class cupchange extends JFrame implements ActionListener{
+    private ImageIcon before = new ImageIcon("images/mug.png");
+    private ImageIcon after = new ImageIcon("images/cup.png");
+    private JButton b1 = new JButton(before);
+    private JButton b2 = new JButton(after);;
+    
+    // Change this line
+    JPanel panel;
+
+    cupchange(){
+        init();
+        start();
+        setSize(500,500);
+        setVisible(true);
+        
+        // Add this line to add the panel to the frame
+        this.add(panel);
+     }
+    
+     void init(){
+         b1.setIconTextGap(1);
+         b2.setIconTextGap(1);
+
+         // Change these lines
+         panel = new JPanel();
+         panel.add(b1, BorderLayout.CENTER); 
+     }
+     
+     void start(){
+         b1.addActionListener(this);
+         b2.addActionListener(this);   
+     }
+     
+     public void actionPerformed(ActionEvent e){
+         if((e.getSource()).equals(b1)){
+             panel.removeAll();
+             panel.add(b2);
+             panel.revalidate();
+             panel.repaint();  
+          } else {
+             panel.removeAll();
+             panel.add(b1);
+             panel.revalidate();  
+             panel.repaint(); 
+          }
+      }
+
+      public static void main(String[] args) {
+          new cupchange();
+      }
+}
