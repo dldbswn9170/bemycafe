@@ -19,14 +19,96 @@ public class gameStart extends JFrame {
 	Timer timer;
 	JLabel timerLabel;
 
+	JButton submitbt;
 	JButton hintbt;
 	BufferedImage img = null;
 
+	// 생성자
 	public gameStart() {
 		gameStartFrame();
 		cursor();
 	}
 
+	// 인게임 프레임
+	public void gameStartFrame() {
+		setTitle("Be My Cafe"); // 프레임 타이틀
+		setSize(922, 519); // 프레임 크기
+		setResizable(false); // 사이즈 재조정 불가능
+		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
+
+		setLayout(null);
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBounds(0, 0, 922, 519);
+		layeredPane.setLayout(null);
+
+		try {
+			img = ImageIO.read(new File("images/background.png"));
+		} catch (IOException e) {
+			System.out.println("이미지 로딩 실패");
+			System.exit(0);
+		}
+
+		// 컵 패널
+		JLayeredPane cupPanel = new JLayeredPane();
+		cupPanel.setBounds(0, 0, 155, 305);
+		cupPanel.setLayout(null);
+
+		try {
+			img = ImageIO.read(new File("images/cup.png"));
+		} catch (IOException e) {
+			System.out.println("이미지 로딩 실패");
+			System.exit(0);
+		}
+
+		layeredPane.add(cupPanel);
+
+		// 제조 완료 버튼
+		submitbt = new JButton(new ImageIcon("images/submit.png"));
+		submitbt.setBounds(340, 408, 241, 71);
+		submitbt.setBorder(null);
+
+		layeredPane.add("Center", submitbt);
+
+		// 하단 힌트
+		gameStartPanel hint = new gameStartPanel();
+
+		hint.setBounds(0, 0, 922, 519);
+
+		hintbt = new JButton(new ImageIcon("images/hint.png"));
+		hintbt.setBounds(850, 425, 55, 55); // 버튼 위치와 크기 설정
+		hintbt.setBorder(null);
+
+		// 인게임 타이머
+		TimerPanel timerPanel = new TimerPanel(1, 30);
+		JPanel timerPanelComponent = timerPanel.createTimerPanel();
+		timerPanelComponent.setBounds(10, 10, 110, 20);
+		layeredPane.add(timerPanelComponent);
+
+		layeredPane.add("Center", hintbt); // 프레임에 버튼 추가 !!
+		layeredPane.add(hint);
+
+		// 인게임 메뉴판
+		String[] strings = { "따뜻한 아메리카노", "차가운 아메리카노", "따뜻한 카페 라떼", "차가운 카페 라떼", "따뜻한 초코 라떼", "차가운 초코 라떼", "따뜻한 녹차 라떼",
+				"차가운 녹차 라떼" };
+		RandomStringPanel example = new RandomStringPanel(strings);
+		JPanel randomStringPanel = example.createRandomStringPanel();
+		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
+		layeredPane.add(randomStringPanel);
+
+		// 힌트 버튼 클릭
+		hintbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				popup();
+			}
+		});
+
+		add(layeredPane);
+		setVisible(true);
+	}
+
+	// 커서 변경
 	public void cursor() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Image cursorimage = tk.getImage("images/cursor.png");
@@ -34,6 +116,82 @@ public class gameStart extends JFrame {
 		Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
 
 		this.setCursor(cursor);
+	}
+
+	class gameStartPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+
+	class cupPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+
+	// 타이머 패널
+	class TimerPanel {
+		private int secondsRemaining;
+		private Timer timer;
+		private JLabel timerLabel;
+
+		public TimerPanel(int minutes, int seconds) {
+			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
+			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
+			timer = new Timer(1000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					secondsRemaining--;
+					timerLabel.setText(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
+
+					if (secondsRemaining <= 0) {
+						timer.stop();
+						JOptionPane.showMessageDialog(null, "Time's up!");
+					}
+				}
+			});
+			timer.start(); // 타이머 자동 시작
+		}
+
+		public JPanel createTimerPanel() {
+			JPanel panel = new JPanel();
+			panel.add(timerLabel);
+			return panel;
+		}
+
+	}
+
+	// 메뉴 패널
+	class RandomStringPanel {
+		private String[] strings;
+		private JLabel outputLabel;
+
+		public RandomStringPanel(String[] strings) {
+			this.strings = strings;
+			outputLabel = new JLabel("Random String: ");
+		}
+
+		public JPanel createRandomStringPanel() {
+			JPanel panel = new JPanel();
+
+			submitbt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Random random = new Random();
+					int randomIndex = random.nextInt(strings.length);
+					String randomString = strings[randomIndex];
+					outputLabel.setText(randomString);
+				}
+			});
+
+			outputLabel.setBounds(10, 10, 100, 30);
+
+			panel.setLayout(null); // 레이아웃을 null로 설정
+			panel.add(outputLabel);
+			return panel;
+		}
+
 	}
 
 	// 팝업창
@@ -68,130 +226,4 @@ public class gameStart extends JFrame {
 		}
 	}
 
-	public void gameStartFrame() {
-		setTitle("Be My Cafe"); // 프레임 타이틀
-		setSize(922, 519); // 프레임 크기
-		setResizable(false); // 사이즈 재조정 불가능
-		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
-		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
-
-		setLayout(null);
-		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setBounds(0, 0, 922, 519);
-		layeredPane.setLayout(null);
-
-		try {
-			img = ImageIO.read(new File("images/background.png"));
-		} catch (IOException e) {
-			System.out.println("이미지 로딩 실패");
-			System.exit(0);
-		}
-
-		gameStartPanel hint = new gameStartPanel();
-
-		hint.setBounds(0, 0, 922, 519);
-
-		hintbt = new JButton(new ImageIcon("images/hint.png"));
-		hintbt.setBounds(850, 425, 55, 55); // 버튼 위치와 크기 설정
-		hintbt.setBorder(null);
-
-		// 힌트 버튼 클릭시 !
-		hintbt.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				popup();
-			}
-		});
-
-		// 인게임 타이머
-		TimerPanel timerPanel = new TimerPanel(1, 30);
-		JPanel timerPanelComponent = timerPanel.createTimerPanel();
-		timerPanelComponent.setBounds(10, 10, 200, 20);
-		layeredPane.add(timerPanelComponent);
-
-		layeredPane.add("Center", hintbt); // 프레임에 버튼 추가 !!
-		layeredPane.add(hint);
-
-		// 인게임 메뉴판
-		String[] strings = { "따뜻한 아메리카노", "차가운 아메리카노", "따뜻한 카페 라떼", "차가운 카페 라떼", "따뜻한 초코 라떼", "차가운 초코 라떼", "따뜻한 녹차 라떼",
-				"차가운 녹차 라떼" };
-		RandomStringPanel example = new RandomStringPanel(strings);
-		JPanel randomStringPanel = example.createRandomStringPanel();
-		randomStringPanel.setBounds(10, 20, 400, 50); // 패널의 위치와 크기를 설정
-		layeredPane.add(randomStringPanel);
-
-		add(layeredPane);
-		setVisible(true); // 화면에 프레임 출력
-
-	}
-
-	class gameStartPanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
-	}
-
-	public class TimerPanel {
-		private int secondsRemaining;
-		private Timer timer;
-		private JLabel timerLabel;
-
-		public TimerPanel(int minutes, int seconds) {
-			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
-			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
-
-			timer = new Timer(1000, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					secondsRemaining--;
-					timerLabel.setText(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
-
-					if (secondsRemaining <= 0) {
-						timer.stop();
-						JOptionPane.showMessageDialog(null, "Time's up!");
-					}
-				}
-			});
-			timer.start(); // 타이머 자동 시작
-		}
-
-		public JPanel createTimerPanel() {
-			JPanel panel = new JPanel();
-			panel.add(timerLabel);
-			return panel;
-		}
-	}
-}
-
-class RandomStringPanel {
-	private String[] strings;
-	private JLabel outputLabel;
-
-	public RandomStringPanel(String[] strings) {
-		this.strings = strings;
-		outputLabel = new JLabel("Random String: ");
-	}
-
-	public JPanel createRandomStringPanel() {
-		JPanel panel = new JPanel();
-		JButton submitButton = new JButton("Submit");
-
-		submitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Random random = new Random();
-				int randomIndex = random.nextInt(strings.length);
-				String randomString = strings[randomIndex];
-				outputLabel.setText(randomString);
-			}
-		});
-
-		submitButton.setBounds(10, 10, 80, 30);
-		outputLabel.setBounds(100, 10, 200, 30);
-
-		panel.setLayout(null); // 레이아웃을 null로 설정
-		panel.add(submitButton);
-		panel.add(outputLabel);
-		return panel;
-	}
 }
