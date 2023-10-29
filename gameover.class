@@ -18,7 +18,7 @@ public class gameover extends JFrame {
         ImageIcon score=new ImageIcon("img/score.png");//스코어 배경 이미지
         restartbt = new JButton(new ImageIcon("img/restart-bt.png"));//재시작 버튼 이미지
 
-        Font font=new Font("고양체", Font.BOLD,15);
+        Font font=new Font("고양체", Font.BOLD,28);
 
         try {
             setTitle("Be My Cafe"); // 프레임 타이틀
