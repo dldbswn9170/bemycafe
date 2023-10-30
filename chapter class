@@ -1,0 +1,65 @@
+import java.awt.*; //자바의 Window GUI프로그래밍 도구를 모두 사용
+import java.awt.event.ActionEvent;//이벤트 클래스를 사용하기 위함
+import java.awt.event.ActionListener;//버튼 클릭 시 이벤크 동작을 위함
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.event.*;
+
+public class chapter extends JFrame {
+
+	 
+	public chapter() {
+		chapterEx();
+	}
+	
+
+//  커서 모양 변경 해야 함
+	
+public void chapterEx() {
+	BufferedImage img = null;
+
+	JPanel panel=new JPanel();
+	
+	JTabbedPane tabpane=new JTabbedPane();//tappane 생성
+	Font font3 = new Font("고양체", Font.BOLD, 15); //폰트 설정
+
+	panel.setLayout(new BorderLayout());
+	
+	tabpane.addTab("게임설명", new JLabel(new ImageIcon("img/background.png"), SwingConstants.CENTER));
+	tabpane.addTab("레시피", new JLabel(new ImageIcon("img/background.png"), SwingConstants.CENTER));
+	tabpane.setFont(font3); // 폰트 적용
+	tabpane.setSelectedIndex(0);//첫 탭 지정
+
+	JButton button1=new JButton("Be ready?\n Clik and Let`s start~");//버튼 스타트 생성 및 텍스트 출력
+	button1.setFont(font3); // 폰트 적용
+
+	panel.add(tabpane,"Center");
+	panel.add(button1,"South");
+	JFrame frame=new JFrame("Be My Cafe ");
+	frame.getContentPane().add(panel,"Center");	
+	
+	frame.setSize(922, 519); // 프레임 크기
+	frame.setResizable(false); // 사이즈 재조정 불가능
+	frame.setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
+	frame.setVisible(true);//가시성 부여
+	
+	button1.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new gameStart();
+
+			}
+		});
+	}
+}
+	
+
+
+//참고 사이트 : https://blog.naver.com/PostView.nhn?blogId=ygszzang11&logNo=50193727509&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
