@@ -75,7 +75,7 @@ public class gameStart extends JFrame {
 		iceCubeInCupPanel.setBounds(0, 0, 922, 519);
 		iceCubeInCupPanel.setLayout(null);
 		iceCubeInCupPanel.setVisible(false);
-		
+
 		JPanel icedMilkPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icedmilkincup.getImage(), 380, 60, 155, 305, null);
@@ -84,7 +84,7 @@ public class gameStart extends JFrame {
 		icedMilkPanel.setBounds(0, 0, 922, 519);
 		icedMilkPanel.setLayout(null);
 		icedMilkPanel.setVisible(false);
-		
+
 		JPanel icedLattePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(icedlatte.getImage(), 380, 60, 155, 305, null);
@@ -93,7 +93,7 @@ public class gameStart extends JFrame {
 		icedLattePanel.setBounds(0, 0, 922, 519);
 		icedLattePanel.setLayout(null);
 		icedLattePanel.setVisible(false);
-		
+
 		// 컵 위치
 		add(iceCubeInCupPanel);
 		add(icedMilkPanel);
@@ -121,7 +121,7 @@ public class gameStart extends JFrame {
 		TimerPanel timerPanel = new TimerPanel(1, 30);
 		JPanel timerPanelComponent = timerPanel.createTimerPanel();
 		timerPanelComponent.setBounds(10, 10, 110, 20);
-		add(timerPanelComponent);
+		Panel1.add(timerPanelComponent);
 
 		Panel1.add("Center", hintbt); // 프레임에 버튼 추가 !!
 
@@ -131,7 +131,7 @@ public class gameStart extends JFrame {
 		RandomStringPanel example = new RandomStringPanel(strings);
 		JPanel randomStringPanel = example.createRandomStringPanel();
 		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
-		add(randomStringPanel);
+		Panel1.add(randomStringPanel);
 
 		// 힌트 버튼 클릭
 		hintbt.addActionListener(new ActionListener() {
@@ -172,7 +172,6 @@ public class gameStart extends JFrame {
 
 		Panel1.add(iceCube);
 
-
 		icedMilk = new JButton(new ImageIcon("images/icedmilk.png"));
 		icedMilk.setBounds(50, 30, 180, 220); // 버튼 위치와 크기 설정
 		icedMilk.setBorder(null);
@@ -185,7 +184,6 @@ public class gameStart extends JFrame {
 				}
 			}
 		});
-
 
 		Panel1.add(icedMilk);
 
@@ -213,13 +211,13 @@ public class gameStart extends JFrame {
 			g.drawImage(img, 0, 0, null);
 		}
 	}
-	
+
 	class icedMilkPanel extends JPanel {
 		public void paint(Graphics g) {
 			g.drawImage(img, 0, 0, null);
 		}
 	}
-	
+
 	class icedLattePanel extends JPanel {
 		public void paint(Graphics g) {
 			g.drawImage(img, 0, 0, null);
@@ -269,16 +267,18 @@ public class gameStart extends JFrame {
 			outputLabel = new JLabel("");
 			createRandomStringPanel();
 		}
-		
+
 		public void generateRandomString() {
-	        Random random = new Random();
-	        int randomIndex = random.nextInt(strings.length);
-	        String randomString = strings[randomIndex];
-	        outputLabel.setText(randomString);
-	    }
+			Random random = new Random();
+			int randomIndex = random.nextInt(strings.length);
+			String randomString = strings[randomIndex];
+			outputLabel.setText(randomString);
+		}
 
 		public JPanel createRandomStringPanel() {
 			JPanel panel = new JPanel();
+
+			generateRandomString();
 
 			submitbt.addActionListener(new ActionListener() {
 				@Override
@@ -293,7 +293,6 @@ public class gameStart extends JFrame {
 			panel.add(outputLabel);
 			return panel;
 		}
-		
 
 	}
 
