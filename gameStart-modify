@@ -1,0 +1,332 @@
+package BeMyCafe;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.swing.*;
+
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import java.util.Random;
+
+// gameStart클래스는 이미 JFrame의 하위 클래스로 정의되어있으므로
+// gameStart 객체가 JFrame 자체
+public class gameStart extends JFrame {
+	int secondsRemaining;
+	Timer timer;
+	JLabel timerLabel;
+
+	JButton submitbt;
+	JButton hintbt;
+
+	JButton bean;
+	JButton iceCube;
+	JButton icedMilk;
+
+	BufferedImage img = null;
+
+	// 생성자
+	public gameStart() {
+		gameStartFrame();
+		cursor();
+	}
+
+	// 인게임 프레임
+	public void gameStartFrame() {
+		ImageIcon background = new ImageIcon("images/background.png");
+		ImageIcon cup = new ImageIcon("images/cup.png");
+		ImageIcon icecubeincup = new ImageIcon("images/icecubeincup.png");
+		ImageIcon icedmilkincup = new ImageIcon("images/icedmilkincup.png");
+		ImageIcon icedlatte = new ImageIcon("images/icedlatte.png");
+
+		setTitle("Be My Cafe"); // 프레임 타이틀
+		setSize(922, 519); // 프레임 크기
+		setResizable(false); // 사이즈 재조정 불가능
+		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
+		setLayout(null);
+
+		JPanel Panel1 = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(background.getImage(), 0, 0, 922, 519, null);
+			}
+		};
+		Panel1.setBounds(0, 0, 922, 519);
+		Panel1.setLayout(null);
+
+		JPanel cupPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(cup.getImage(), 380, 60, 155, 305, null);
+			}
+		};
+		cupPanel.setBounds(0, 0, 922, 519);
+		cupPanel.setLayout(null);
+
+		JPanel iceCubeInCupPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icecubeincup.getImage(), 380, 60, 155, 305, null);
+			}
+		};
+		iceCubeInCupPanel.setBounds(0, 0, 922, 519);
+		iceCubeInCupPanel.setLayout(null);
+		iceCubeInCupPanel.setVisible(false);
+		
+		JPanel icedMilkPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedmilkincup.getImage(), 380, 60, 155, 305, null);
+			}
+		};
+		icedMilkPanel.setBounds(0, 0, 922, 519);
+		icedMilkPanel.setLayout(null);
+		icedMilkPanel.setVisible(false);
+		
+		JPanel icedLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedlatte.getImage(), 380, 60, 155, 305, null);
+			}
+		};
+		icedLattePanel.setBounds(0, 0, 922, 519);
+		icedLattePanel.setLayout(null);
+		icedLattePanel.setVisible(false);
+		
+		// 컵 위치
+		add(iceCubeInCupPanel);
+		add(icedMilkPanel);
+		add(icedLattePanel);
+		add(cupPanel);
+		add(Panel1); // Panel1을 맨아래 둬서 배경이미지처럼
+
+		// 제조 완료 버튼
+		submitbt = new JButton(new ImageIcon("images/submit.png"));
+		submitbt.setBounds(340, 408, 241, 71);
+		submitbt.setBorder(null);
+
+		Panel1.add("Center", submitbt);
+
+		// 하단 힌트
+		gameStartPanel hint = new gameStartPanel();
+
+		hint.setBounds(0, 0, 922, 519);
+
+		hintbt = new JButton(new ImageIcon("images/hint.png"));
+		hintbt.setBounds(850, 425, 55, 55); // 버튼 위치와 크기 설정
+		hintbt.setBorder(null);
+
+		// 인게임 타이머
+		TimerPanel timerPanel = new TimerPanel(1, 30);
+		JPanel timerPanelComponent = timerPanel.createTimerPanel();
+		timerPanelComponent.setBounds(10, 10, 110, 20);
+		add(timerPanelComponent);
+
+		Panel1.add("Center", hintbt); // 프레임에 버튼 추가 !!
+
+		// 인게임 메뉴판
+		String[] strings = { "따뜻한 아메리카노", "차가운 아메리카노", "따뜻한 카페 라떼", "차가운 카페 라떼", "따뜻한 초코 라떼", "차가운 초코 라떼", "따뜻한 녹차 라떼",
+				"차가운 녹차 라떼" };
+		RandomStringPanel example = new RandomStringPanel(strings);
+		JPanel randomStringPanel = example.createRandomStringPanel();
+		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
+		add(randomStringPanel);
+
+		// 힌트 버튼 클릭
+		hintbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				popup();
+			}
+		});
+
+		bean = new JButton(new ImageIcon("images/beanbt.png"));
+		bean.setBounds(150, 300, 100, 120); // 버튼 위치와 크기 설정
+		bean.setBorder(null);
+		bean.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (icedMilkPanel.isVisible()) {
+					icedMilkPanel.setVisible(false);
+					icedLattePanel.setVisible(true);
+				}
+			}
+		});
+
+		Panel1.add(bean);
+
+		iceCube = new JButton(new ImageIcon("images/icecube.png"));
+		iceCube.setBounds(200, 50, 180, 220); // 버튼 위치와 크기 설정
+		iceCube.setBorder(null);
+		iceCube.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 첫 번째 패널을 보이거나 숨김
+				if (cupPanel.isVisible()) {
+					cupPanel.setVisible(false);
+					iceCubeInCupPanel.setVisible(true);
+				}
+			}
+		});
+
+		Panel1.add(iceCube);
+
+
+		icedMilk = new JButton(new ImageIcon("images/icedmilk.png"));
+		icedMilk.setBounds(50, 30, 180, 220); // 버튼 위치와 크기 설정
+		icedMilk.setBorder(null);
+		icedMilk.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (iceCubeInCupPanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedMilkPanel.setVisible(true);
+				}
+			}
+		});
+
+
+		Panel1.add(icedMilk);
+
+		setVisible(true);
+	}
+
+	// 커서 변경
+	public void cursor() {
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Image cursorimage = tk.getImage("images/cursor.png");
+		Point point = new Point(10, 10);
+		Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
+
+		this.setCursor(cursor);
+	}
+
+	class gameStartPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+
+	class cupPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+	
+	class icedMilkPanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+	
+	class icedLattePanel extends JPanel {
+		public void paint(Graphics g) {
+			g.drawImage(img, 0, 0, null);
+		}
+	}
+
+	// 타이머 패널
+	class TimerPanel {
+		private int secondsRemaining;
+		private Timer timer;
+		private JLabel timerLabel;
+
+		public TimerPanel(int minutes, int seconds) {
+			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
+			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
+			timer = new Timer(1000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					secondsRemaining--;
+					timerLabel.setText(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
+
+					if (secondsRemaining <= 0) {
+						timer.stop();
+						setVisible(false);
+						new gameOver();
+					}
+				}
+			});
+			timer.start(); // 타이머 자동 시작
+		}
+
+		public JPanel createTimerPanel() {
+			JPanel panel = new JPanel();
+			panel.add(timerLabel);
+			return panel;
+		}
+
+	}
+
+	// 메뉴 패널
+	class RandomStringPanel {
+		private String[] strings;
+		private JLabel outputLabel;
+
+		public RandomStringPanel(String[] strings) {
+			this.strings = strings;
+			outputLabel = new JLabel("");
+			createRandomStringPanel();
+		}
+		
+		public void generateRandomString() {
+	        Random random = new Random();
+	        int randomIndex = random.nextInt(strings.length);
+	        String randomString = strings[randomIndex];
+	        outputLabel.setText(randomString);
+	    }
+
+		public JPanel createRandomStringPanel() {
+			JPanel panel = new JPanel();
+
+			submitbt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					generateRandomString();
+				}
+			});
+
+			outputLabel.setBounds(10, 10, 100, 30);
+
+			panel.setLayout(null); // 레이아웃을 null로 설정
+			panel.add(outputLabel);
+			return panel;
+		}
+		
+
+	}
+
+	// 팝업창
+	public void popup() {
+		try {
+			// 이미지 파일 불러오기
+			BufferedImage image = ImageIO.read(new File("images/recipe.png")); // 팝업 배경 이미지
+
+			// 이미지를 화면에 표시
+			JFrame hintFrame = new JFrame();
+
+			JButton quitbt = new JButton(new ImageIcon("images/quit.png"));
+			quitbt.setBounds(435, 15, 55, 55); // 버튼 위치와 크기 설정
+			quitbt.setBorder(null);
+
+			quitbt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					hintFrame.setVisible(false);
+				}
+			});
+
+			hintFrame.add(quitbt);
+
+			hintFrame.setSize(505, 635);
+			hintFrame.setResizable(false);
+			hintFrame.setLocationRelativeTo(null);
+			hintFrame.getContentPane().add(new JLabel(new ImageIcon(image)));
+			hintFrame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
