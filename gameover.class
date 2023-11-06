@@ -39,6 +39,11 @@ public class gameover extends JFrame {
             JPanel Panel1 = new JPanel() {
                 public void paintComponent(Graphics g) {
                     g.drawImage(score.getImage(), 0, 0, 922, 519, null);
+        //재시작 버튼
+        restartbt.setBounds(340, 358, 241, 101);//재시작 버튼 사이즈
+        restartbt.setBorder(null);//gameover 프레임에 재시작 버튼 넣기
+
+        add("Center", restartbt);
                 }
             };
             Panel1.setBounds(0,0,922,519);
@@ -50,11 +55,6 @@ public class gameover extends JFrame {
             System.exit(0);
         }
 
-        //재시작 버튼
-        restartbt.setBounds(340, 358, 241, 101);//재시작 버튼 사이즈
-        restartbt.setBorder(null);//gameover 프레임에 재시작 버튼 넣기
-
-        add("Center", restartbt);
         setVisible(true);
 
         // 재시작 버튼 클릭 시
