@@ -1,0 +1,78 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class cupchange extends JFrame {
+    private JButton leftButton;
+    private JButton rightButton;
+    private JLabel imageLabel;
+    private ImageIcon[] images;
+    private int currentIndex;
+
+    public cupchange() {
+        // 이미지 파일 경로 설정
+        String[] imagePaths = {"img/mug.png", "img/cup.png"};
+
+        // 이미지 배열 초기화
+        images = new ImageIcon[imagePaths.length];
+        for (int i = 0; i < imagePaths.length; i++) {
+            images[i] = new ImageIcon(imagePaths[i]);
+        }
+
+        // 현재 이미지 인덱스 초기화
+        currentIndex = 0;
+
+        // 좌우 화살표 버튼 생성
+        leftButton = new JButton("<");
+        rightButton = new JButton(">");
+
+        // 이미지 표시 레이블 생성 및 초기 이미지 설정
+        imageLabel = new JLabel(images[currentIndex]);
+
+        // 좌우 화살표 버튼 클릭 이벤트 처리
+        leftButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 이전 이미지로 변경
+                currentIndex--;
+                if (currentIndex < 0) {
+                    currentIndex = images.length - 1;
+                }
+                imageLabel.setIcon(images[currentIndex]);
+            }
+        });
+
+        rightButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 다음 이미지로 변경
+                currentIndex++;
+                if (currentIndex >= images.length) {
+                    currentIndex = 0;
+                }
+                imageLabel.setIcon(images[currentIndex]);
+            }
+        });
+
+        // 프레임 설정
+        setTitle("Be My Cafe"); // 프레임 타이틀
+        setSize(922, 519); // 프레임 크기
+        setResizable(false); // 사이즈 재조정 불가능
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+        add(leftButton);
+        add(imageLabel);
+        add(rightButton);
+        setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new cupchange();
+            }
+        });
+    }
+}
