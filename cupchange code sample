@@ -3,14 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class cupchange extends JFrame {
+public class CupChangePanel extends JPanel {
     private JButton leftButton;
     private JButton rightButton;
     private JLabel imageLabel;
     private ImageIcon[] images;
     private int currentIndex;
 
-    public cupchange() {
+    public CupChangePanel() {
         // 이미지 파일 경로 설정
         String[] imagePaths = {"img/mug.png", "img/cup.png"};
 
@@ -55,24 +55,10 @@ public class cupchange extends JFrame {
             }
         });
 
-        // 프레임 설정
-        setTitle("Be My Cafe"); // 프레임 타이틀
-        setSize(922, 519); // 프레임 크기
-        setResizable(false); // 사이즈 재조정 불가능
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // 패널 설정
         setLayout(new FlowLayout());
         add(leftButton);
         add(imageLabel);
         add(rightButton);
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new cupchange();
-            }
-        });
     }
 }
