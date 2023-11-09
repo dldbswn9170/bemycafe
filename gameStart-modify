@@ -27,6 +27,11 @@ public class gameStart extends JFrame {
 	JButton bean;
 	JButton iceCube;
 	JButton icedMilk;
+	JButton hotMilk;
+	JButton icedWater;
+	JButton hotWater;
+	JButton chocoPowder;
+	JButton matchaPowder;
 
 	BufferedImage img = null;
 
@@ -51,13 +56,13 @@ public class gameStart extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
 		setLayout(null);
 
-		JPanel Panel1 = new JPanel() {
+		JPanel bgPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(background.getImage(), 0, 0, 922, 519, null);
 			}
 		};
-		Panel1.setBounds(0, 0, 922, 519);
-		Panel1.setLayout(null);
+		bgPanel.setBounds(0, 0, 922, 519);
+		bgPanel.setLayout(null);
 
 		JPanel cupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
@@ -99,14 +104,30 @@ public class gameStart extends JFrame {
 		add(icedMilkPanel);
 		add(icedLattePanel);
 		add(cupPanel);
-		add(Panel1); // Panel1을 맨아래 둬서 배경이미지처럼
+		add(bgPanel); // Panel1을 맨아래 둬서 배경이미지처럼
 
 		// 제조 완료 버튼
 		submitbt = new JButton(new ImageIcon("images/submit.png"));
 		submitbt.setBounds(340, 408, 241, 71);
 		submitbt.setBorder(null);
+		submitbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (icedLattePanel.isVisible()) {
+					icedLattePanel.setVisible(false);
+					cupPanel.setVisible(true);
+				} else if (iceCubeInCupPanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					cupPanel.setVisible(true);
+					cupPanel.setVisible(true);
+				} else if (icedMilkPanel.isVisible()) {
+					icedMilkPanel.setVisible(false);
+					cupPanel.setVisible(true);
+				}
+			}
+		});
 
-		Panel1.add("Center", submitbt);
+		bgPanel.add("Center", submitbt);
 
 		// 하단 힌트
 		gameStartPanel hint = new gameStartPanel();
@@ -121,17 +142,17 @@ public class gameStart extends JFrame {
 		TimerPanel timerPanel = new TimerPanel(1, 30);
 		JPanel timerPanelComponent = timerPanel.createTimerPanel();
 		timerPanelComponent.setBounds(10, 10, 110, 20);
-		Panel1.add(timerPanelComponent);
+		bgPanel.add(timerPanelComponent);
 
-		Panel1.add("Center", hintbt); // 프레임에 버튼 추가 !!
+		bgPanel.add("Center", hintbt); // 프레임에 버튼 추가 !!
 
 		// 인게임 메뉴판
 		String[] strings = { "따뜻한 아메리카노", "차가운 아메리카노", "따뜻한 카페 라떼", "차가운 카페 라떼", "따뜻한 초코 라떼", "차가운 초코 라떼", "따뜻한 녹차 라떼",
 				"차가운 녹차 라떼" };
-		RandomStringPanel example = new RandomStringPanel(strings);
-		JPanel randomStringPanel = example.createRandomStringPanel();
+		RandomStringPanel menu = new RandomStringPanel(strings);
+		JPanel randomStringPanel = menu.createRandomStringPanel();
 		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
-		Panel1.add(randomStringPanel);
+		bgPanel.add(randomStringPanel);
 
 		// 힌트 버튼 클릭
 		hintbt.addActionListener(new ActionListener() {
@@ -142,7 +163,7 @@ public class gameStart extends JFrame {
 		});
 
 		bean = new JButton(new ImageIcon("images/beanbt.png"));
-		bean.setBounds(150, 300, 100, 120); // 버튼 위치와 크기 설정
+		bean.setBounds(230, 80, 100, 120); // 버튼 위치와 크기 설정
 		bean.setBorder(null);
 		bean.addActionListener(new ActionListener() {
 			@Override
@@ -154,10 +175,10 @@ public class gameStart extends JFrame {
 			}
 		});
 
-		Panel1.add(bean);
+		bgPanel.add(bean);
 
 		iceCube = new JButton(new ImageIcon("images/icecube.png"));
-		iceCube.setBounds(200, 50, 180, 220); // 버튼 위치와 크기 설정
+		iceCube.setBounds(60, 30, 180, 220); // 버튼 위치와 크기 설정
 		iceCube.setBorder(null);
 		iceCube.addActionListener(new ActionListener() {
 			@Override
@@ -170,10 +191,10 @@ public class gameStart extends JFrame {
 			}
 		});
 
-		Panel1.add(iceCube);
+		bgPanel.add(iceCube);
 
 		icedMilk = new JButton(new ImageIcon("images/icedmilk.png"));
-		icedMilk.setBounds(50, 30, 180, 220); // 버튼 위치와 크기 설정
+		icedMilk.setBounds(760, 230, 100, 200); // 버튼 위치와 크기 설정
 		icedMilk.setBorder(null);
 		icedMilk.addActionListener(new ActionListener() {
 			@Override
@@ -185,8 +206,68 @@ public class gameStart extends JFrame {
 			}
 		});
 
-		Panel1.add(icedMilk);
-
+		bgPanel.add(icedMilk);
+		
+		hotMilk = new JButton(new ImageIcon("images/pitcher.png"));
+		hotMilk.setBounds(580, 280, 150, 110); // 버튼 위치와 크기 설정
+		hotMilk.setBorder(null);
+		hotMilk.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (iceCubeInCupPanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedMilkPanel.setVisible(true);
+				}
+			}
+		});
+		
+		bgPanel.add(hotMilk);
+		
+		hotWater = new JButton(new ImageIcon("images/pod.png"));
+		hotWater.setBounds(705, 65, 200, 150); // 버튼 위치와 크기 설정
+		hotWater.setBorder(null);
+		hotWater.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (iceCubeInCupPanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedMilkPanel.setVisible(true);
+				}
+			}
+		});
+		
+		bgPanel.add(hotWater);
+		
+		chocoPowder = new JButton(new ImageIcon("images/chocopowder.png"));
+		chocoPowder.setBounds(100, 240, 100, 124); // 버튼 위치와 크기 설정
+		chocoPowder.setBorder(null);
+		chocoPowder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (iceCubeInCupPanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedMilkPanel.setVisible(true);
+				}
+			}
+		});
+		
+		bgPanel.add(chocoPowder);
+		
+		matchaPowder = new JButton(new ImageIcon("images/matchaPowder.png"));
+		matchaPowder.setBounds(225, 240, 100, 124); // 버튼 위치와 크기 설정
+		matchaPowder.setBorder(null);
+		matchaPowder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (iceCubeInCupPanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedMilkPanel.setVisible(true);
+				}
+			}
+		});
+		
+		bgPanel.add(matchaPowder);
+		
 		setVisible(true);
 	}
 
@@ -229,7 +310,7 @@ public class gameStart extends JFrame {
 		private int secondsRemaining;
 		private Timer timer;
 		private JLabel timerLabel;
-
+		
 		public TimerPanel(int minutes, int seconds) {
 			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
 			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
@@ -252,6 +333,7 @@ public class gameStart extends JFrame {
 		public JPanel createTimerPanel() {
 			JPanel panel = new JPanel();
 			panel.add(timerLabel);
+			panel.setBackground(Color.WHITE);
 			return panel;
 		}
 
@@ -291,6 +373,8 @@ public class gameStart extends JFrame {
 
 			panel.setLayout(null); // 레이아웃을 null로 설정
 			panel.add(outputLabel);
+			panel.setBackground(Color.WHITE);
+
 			return panel;
 		}
 
