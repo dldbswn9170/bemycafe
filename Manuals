@@ -1,0 +1,69 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+    // 메뉴얼 생성
+    static Map<String, String> menuManuals = new HashMap<>();
+    static {
+        menuManuals.put("따듯한 아메리카노", "따듯한 아메리카노 메뉴얼입니다.");
+        menuManuals.put("차가운 아메리카노", "차가운 아메리카노 메뉴얼입니다.");
+        menuManuals.put("따듯한 카페라떼", "따듯한 카페라떼 메뉴얼입니다.");
+        menuManuals.put("차가운 카페라떼", "차가운 카페라떼 메뉴얼입니다.");
+        menuManuals.put("따듯한 초코라떼", "따듯한 초코라떼 메뉴얼입니다.");
+        menuManuals.put("차가운 초코라떼", "차가운 초코라떼 메뉴얼입니다.");
+        menuManuals.put("따듯한 녹차라떼", "따듯한 녹차라떼 메뉴얼입니다.");
+        menuManuals.put("차가운 녹차라떼", "따듯한 녹차라떼 메뉴얼입니다.");
+    }
+
+    // 레시피 생성
+    static Map<String, List<String>> menuRecipes = new HashMap<>();
+    static {
+        List<String> hotAmericanoRecipe = new ArrayList<>();
+        hotAmericanoRecipe.add("뜨거운 물");
+        hotAmericanoRecipe.add("샷");
+        menuRecipes.put("따듯한 아메리카노", hotAmericanoRecipe);
+
+        List<String> icedAmericanoRecipe = new ArrayList<>();
+        icedAmericanoRecipe.add("차가운 물");
+        icedAmericanoRecipe.add("샷");
+        menuRecipes.put("차가운 아메리카노", icedAmericanoRecipe);
+
+        List<String> hotCafeLatteRecipe = new ArrayList<>();
+        hotCafeLatteRecipe.add("뜨거운 우유");
+        hotCafeLatteRecipe.add("샷");
+        menuRecipes.put("따듯한 카페라떼", hotCafeLatteRecipe);
+
+        List<String> icedCafeLatteRecipe = new ArrayList<>();
+        icedCafeLatteRecipe.add("얼음");
+        icedCafeLatteRecipe.add("차가운 우유");
+        icedCafeLatteRecipe.add("샷");
+        menuRecipes.put("차가운 카페라떼", icedCafeLatteRecipe);
+
+        List<String> hotChocoLatteRecipe = new ArrayList<>();
+        hotChocoLatteRecipe.add("뜨거운 우유");
+        hotChocoLatteRecipe.add("초코파우더");
+        menuRecipes.put("따듯한 초코라떼", hotChocoLatteRecipe);
+
+        List<String> icedChocoLatteRecipe = new ArrayList<>();
+        icedChocoLatteRecipe.add("얼음");
+        icedChocoLatteRecipe.add("차가운 우유");
+        icedChocoLatteRecipe.add("초코파우더");
+        menuRecipes.put("차가운 초코라떼", icedChocoLatteRecipe);
+
+        List<String> hotGreenTeaLatteRecipe = new ArrayList<>();
+        hotGreenTeaLatteRecipe.add("뜨거운 우유");
+        hotGreenTeaLatteRecipe.add("녹차 파우더");
+        menuRecipes.put("따듯한 녹차라떼", hotGreenTeaLatteRecipe);
+
+        List<String> icedGreenTeaLatteRecipe = new ArrayList<>();
+        icedGreenTeaLatteRecipe.add("얼음");
+        icedGreenTeaLatteRecipe.add("차가운 우유");
+        icedGreenTeaLatteRecipe.add("녹차 파우더");
+        menuRecipes.put("차가운 녹차라떼", icedGreenTeaLatteRecipe);
+    }
+
+    // 동적 배열에 메뉴 레시피 추가
+    static List<List<String>> menuRecipeList = new ArrayList<>(menuRecipes.values());
+}
