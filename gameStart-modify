@@ -353,13 +353,19 @@ public class gameStart extends JFrame {
 		hintbt.setBounds(850, 425, 55, 55); // 버튼 위치와 크기 설정
 		hintbt.setBorder(null);
 
+		bgPanel.add("Center", hintbt); // 프레임에 버튼 추가 !!
+
 		// 인게임 타이머
-		TimerPanel timerPanel = new TimerPanel(0, 30);
+		TimerPanel timerPanel = new TimerPanel(1, 30);
 		JPanel timerPanelComponent = timerPanel.createTimerPanel();
 		timerPanelComponent.setBounds(10, 10, 110, 20);
 		bgPanel.add(timerPanelComponent);
 
-		bgPanel.add("Center", hintbt); // 프레임에 버튼 추가 !!
+		// 인게임 스코어
+		scorePanel scorePanel = new scorePanel();
+		JPanel scorePanelComponent = scorePanel.createScorePanel();
+		scorePanelComponent.setBounds(461, 10, 110, 20);
+		bgPanel.add(scorePanelComponent);
 
 		// 인게임 메뉴판
 		String[] strings = { "따뜻한 아메리카노", "차가운 아메리카노", "따뜻한 카페 라떼", "차가운 카페 라떼", "따뜻한 초코 라떼", "차가운 초코 라떼", "따뜻한 녹차 라떼",
@@ -368,16 +374,30 @@ public class gameStart extends JFrame {
 		JPanel randomStringPanel = menu.createRandomStringPanel();
 		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
 		bgPanel.add(randomStringPanel);
-		
+
 		submitbt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nowMenu = menu.getCurrentRandomString();
-				if(nowMenu.equals("차가운 아메리카노") && icedAmericanoPanel.isVisible()) {
-					gameScore += 100;
+				if (nowMenu.equals("차가운 아메리카노") && icedAmericanoPanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 아메리카노") && hotAmericanoPanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("차가운 카페 라떼") && icedLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 카페 라떼") && hotLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("차가운 초코 라떼") && icedChocoLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 초코 라떼") && hotChocoLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("차가운 녹차 라떼") && icedMatchaLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 녹차 라떼") && hotMatchaLattePanel.isVisible()) {
+					gameScore += 50;
 				}
 			}
 		});
-		
+
 		// 힌트 버튼 클릭
 		hintbt.addActionListener(new ActionListener() {
 			@Override
@@ -494,6 +514,9 @@ public class gameStart extends JFrame {
 				if (hotMilkPanel.isVisible()) {
 					hotMilkPanel.setVisible(false);
 					hotChocoLattePanel.setVisible(true);
+				} else if (icedMilkPanel.isVisible()) {
+					icedMilkPanel.setVisible(false);
+					icedChocoLattePanel.setVisible(true);
 				}
 			}
 		});
@@ -509,6 +532,9 @@ public class gameStart extends JFrame {
 				if (hotMilkPanel.isVisible()) {
 					hotMilkPanel.setVisible(false);
 					hotMatchaLattePanel.setVisible(true);
+				} else if (icedMilkPanel.isVisible()) {
+					icedMilkPanel.setVisible(false);
+					icedMatchaLattePanel.setVisible(true);
 				}
 			}
 		});
@@ -568,6 +594,35 @@ public class gameStart extends JFrame {
 
 	}
 
+	// 스코어 패널
+	class scorePanel {
+		private JLabel scoreLabel;
+
+		public scorePanel() {
+			scoreLabel = new JLabel("현재 점수 " + gameStart.gameScore + "점");
+			createScorePanel();
+		}
+
+		public void setScoreLabel() {
+			scoreLabel.setText("현재 점수 " + gameStart.gameScore + "점");
+		}
+
+		public JPanel createScorePanel() {
+			JPanel panel = new JPanel();
+
+			submitbt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setScoreLabel();
+				}
+			});
+
+			panel.add(scoreLabel);
+			panel.setBackground(Color.WHITE);
+			return panel;
+		}
+	}
+
 	// 메뉴 패널
 	class RandomStringPanel {
 		private String[] strings;
@@ -585,7 +640,7 @@ public class gameStart extends JFrame {
 			String randomString = strings[randomIndex];
 			outputLabel.setText(randomString);
 		}
-		
+
 		public String getCurrentRandomString() {
 			return outputLabel.getText();
 		}
