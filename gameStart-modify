@@ -17,10 +17,14 @@ import java.util.Random;
 // gameStart클래스는 이미 JFrame의 하위 클래스로 정의되어있으므로
 // gameStart 객체가 JFrame 자체
 public class gameStart extends JFrame {
+	public static int gameScore = 0;
+
 	int secondsRemaining;
 	Timer timer;
 	JLabel timerLabel;
 
+	JButton leftbt;
+	JButton rightbt;
 	JButton submitbt;
 	JButton hintbt;
 
@@ -45,9 +49,20 @@ public class gameStart extends JFrame {
 	public void gameStartFrame() {
 		ImageIcon background = new ImageIcon("images/background.png");
 		ImageIcon cup = new ImageIcon("images/cup.png");
+		ImageIcon mug = new ImageIcon("images/mug.png");
 		ImageIcon icecubeincup = new ImageIcon("images/icecubeincup.png");
+		ImageIcon icedwaterincup = new ImageIcon("images/icedwaterincup.png");
+		ImageIcon icedamericano = new ImageIcon("images/icedamericano.png");
 		ImageIcon icedmilkincup = new ImageIcon("images/icedmilkincup.png");
 		ImageIcon icedlatte = new ImageIcon("images/icedlatte.png");
+		ImageIcon icedchocolatte = new ImageIcon("images/icedchocolatte.png");
+		ImageIcon icedmatchalatte = new ImageIcon("images/icedmatchalatte.png");
+		ImageIcon hotwater = new ImageIcon("images/hotwater.png");
+		ImageIcon hotmilk = new ImageIcon("images/hotmilk.png");
+		ImageIcon hotamericano = new ImageIcon("images/hotamericano.png");
+		ImageIcon hotlatte = new ImageIcon("images/hotlatte.png");
+		ImageIcon hotchocolatte = new ImageIcon("images/hotchocolatte.png");
+		ImageIcon hotmatchalatte = new ImageIcon("images/hotmatchalatte.png");
 
 		setTitle("Be My Cafe"); // 프레임 타이틀
 		setSize(922, 519); // 프레임 크기
@@ -66,45 +81,234 @@ public class gameStart extends JFrame {
 
 		JPanel cupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(cup.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(cup.getImage(), 383, 60, 155, 305, null);
 			}
 		};
 		cupPanel.setBounds(0, 0, 922, 519);
 		cupPanel.setLayout(null);
 
+		JPanel mugPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(mug.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		mugPanel.setBounds(0, 0, 922, 519);
+		mugPanel.setLayout(null);
+		mugPanel.setVisible(false);
+
 		JPanel iceCubeInCupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icecubeincup.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(icecubeincup.getImage(), 383, 60, 155, 305, null);
 			}
 		};
 		iceCubeInCupPanel.setBounds(0, 0, 922, 519);
 		iceCubeInCupPanel.setLayout(null);
 		iceCubeInCupPanel.setVisible(false);
 
+		JPanel icedWaterInCupPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedwaterincup.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedWaterInCupPanel.setBounds(0, 0, 922, 519);
+		icedWaterInCupPanel.setLayout(null);
+		icedWaterInCupPanel.setVisible(false);
+
+		JPanel hotWaterPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotwater.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotWaterPanel.setBounds(0, 0, 922, 519);
+		hotWaterPanel.setLayout(null);
+		hotWaterPanel.setVisible(false);
+
+		JPanel icedAmericanoPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedamericano.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedAmericanoPanel.setBounds(0, 0, 922, 519);
+		icedAmericanoPanel.setLayout(null);
+		icedAmericanoPanel.setVisible(false);
+
+		JPanel hotAmericanoPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotamericano.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotAmericanoPanel.setBounds(0, 0, 922, 519);
+		hotAmericanoPanel.setLayout(null);
+		hotAmericanoPanel.setVisible(false);
+
 		JPanel icedMilkPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedmilkincup.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(icedmilkincup.getImage(), 383, 60, 155, 305, null);
 			}
 		};
 		icedMilkPanel.setBounds(0, 0, 922, 519);
 		icedMilkPanel.setLayout(null);
 		icedMilkPanel.setVisible(false);
 
+		JPanel hotMilkPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotmilk.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotMilkPanel.setBounds(0, 0, 922, 519);
+		hotMilkPanel.setLayout(null);
+		hotMilkPanel.setVisible(false);
+
 		JPanel icedLattePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedlatte.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(icedlatte.getImage(), 383, 60, 155, 305, null);
 			}
 		};
 		icedLattePanel.setBounds(0, 0, 922, 519);
 		icedLattePanel.setLayout(null);
 		icedLattePanel.setVisible(false);
 
+		JPanel icedChocoLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedchocolatte.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedChocoLattePanel.setBounds(0, 0, 922, 519);
+		icedChocoLattePanel.setLayout(null);
+		icedChocoLattePanel.setVisible(false);
+
+		JPanel icedMatchaLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedmatchalatte.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedMatchaLattePanel.setBounds(0, 0, 922, 519);
+		icedMatchaLattePanel.setLayout(null);
+		icedMatchaLattePanel.setVisible(false);
+
+		JPanel hotLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotlatte.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotLattePanel.setBounds(0, 0, 922, 519);
+		hotLattePanel.setLayout(null);
+		hotLattePanel.setVisible(false);
+
+		JPanel hotChocoLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotchocolatte.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotChocoLattePanel.setBounds(0, 0, 922, 519);
+		hotChocoLattePanel.setLayout(null);
+		hotChocoLattePanel.setVisible(false);
+
+		JPanel hotMatchaLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotmatchalatte.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotMatchaLattePanel.setBounds(0, 0, 922, 519);
+		hotMatchaLattePanel.setLayout(null);
+		hotMatchaLattePanel.setVisible(false);
+
 		// 컵 위치
 		add(iceCubeInCupPanel);
+		add(icedWaterInCupPanel);
+		add(icedAmericanoPanel);
 		add(icedMilkPanel);
 		add(icedLattePanel);
+		add(icedChocoLattePanel);
+		add(icedMatchaLattePanel);
+		add(hotWaterPanel);
+		add(hotMilkPanel);
+		add(hotAmericanoPanel);
+		add(hotLattePanel);
+		add(hotChocoLattePanel);
+		add(hotMatchaLattePanel);
 		add(cupPanel);
+		add(mugPanel);
 		add(bgPanel); // Panel1을 맨아래 둬서 배경이미지처럼
+
+		// 컵 변경 왼쪽
+		leftbt = new JButton(new ImageIcon("images/left.png"));
+		leftbt.setBounds(311, 209, 50, 50);
+		leftbt.setBorder(null);
+		leftbt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (cupPanel.isVisible()) {
+					cupPanel.setVisible(false);
+					mugPanel.setVisible(true);
+				} else if (mugPanel.isVisible()) {
+					mugPanel.setVisible(false);
+					cupPanel.setVisible(true);
+				} else if (iceCubeInCupPanel.isVisible() || icedWaterInCupPanel.isVisible()
+						|| icedAmericanoPanel.isVisible() || icedMilkPanel.isVisible() || icedLattePanel.isVisible()
+						|| icedChocoLattePanel.isVisible() || icedMatchaLattePanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedWaterInCupPanel.setVisible(false);
+					icedAmericanoPanel.setVisible(false);
+					icedMilkPanel.setVisible(false);
+					icedLattePanel.setVisible(false);
+					icedChocoLattePanel.setVisible(false);
+					icedMatchaLattePanel.setVisible(false);
+					mugPanel.setVisible(true);
+				} else if (hotWaterPanel.isVisible() || hotAmericanoPanel.isVisible() || hotMilkPanel.isVisible()
+						|| hotLattePanel.isVisible() || hotChocoLattePanel.isVisible()
+						|| hotMatchaLattePanel.isVisible()) {
+					hotWaterPanel.setVisible(false);
+					hotAmericanoPanel.setVisible(false);
+					hotMilkPanel.setVisible(false);
+					hotLattePanel.setVisible(false);
+					hotChocoLattePanel.setVisible(false);
+					hotMatchaLattePanel.setVisible(false);
+					cupPanel.setVisible(true);
+				}
+			}
+		});
+
+		bgPanel.add(leftbt);
+
+		// 컵 변경 오른쪽
+		rightbt = new JButton(new ImageIcon("images/right.png"));
+		rightbt.setBounds(561, 209, 50, 50);
+		rightbt.setBorder(null);
+		rightbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (cupPanel.isVisible()) {
+					cupPanel.setVisible(false);
+					mugPanel.setVisible(true);
+				} else if (mugPanel.isVisible()) {
+					mugPanel.setVisible(false);
+					cupPanel.setVisible(true);
+				} else if (iceCubeInCupPanel.isVisible() || icedWaterInCupPanel.isVisible()
+						|| icedAmericanoPanel.isVisible() || icedMilkPanel.isVisible() || icedLattePanel.isVisible()
+						|| icedChocoLattePanel.isVisible() || icedMatchaLattePanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedWaterInCupPanel.setVisible(false);
+					icedAmericanoPanel.setVisible(false);
+					icedMilkPanel.setVisible(false);
+					icedLattePanel.setVisible(false);
+					icedChocoLattePanel.setVisible(false);
+					icedMatchaLattePanel.setVisible(false);
+					mugPanel.setVisible(true);
+				} else if (hotWaterPanel.isVisible() || hotAmericanoPanel.isVisible() || hotMilkPanel.isVisible()
+						|| hotLattePanel.isVisible() || hotChocoLattePanel.isVisible()
+						|| hotMatchaLattePanel.isVisible()) {
+					hotWaterPanel.setVisible(false);
+					hotAmericanoPanel.setVisible(false);
+					hotMilkPanel.setVisible(false);
+					hotLattePanel.setVisible(false);
+					hotChocoLattePanel.setVisible(false);
+					hotMatchaLattePanel.setVisible(false);
+					cupPanel.setVisible(true);
+				}
+			}
+		});
+
+		bgPanel.add(rightbt);
 
 		// 제조 완료 버튼
 		submitbt = new JButton(new ImageIcon("images/submit.png"));
@@ -113,16 +317,27 @@ public class gameStart extends JFrame {
 		submitbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (icedLattePanel.isVisible()) {
-					icedLattePanel.setVisible(false);
-					cupPanel.setVisible(true);
-				} else if (iceCubeInCupPanel.isVisible()) {
+				if (iceCubeInCupPanel.isVisible() || icedWaterInCupPanel.isVisible() || icedAmericanoPanel.isVisible()
+						|| icedMilkPanel.isVisible() || icedLattePanel.isVisible() || icedChocoLattePanel.isVisible()
+						|| icedMatchaLattePanel.isVisible()) {
 					iceCubeInCupPanel.setVisible(false);
-					cupPanel.setVisible(true);
-					cupPanel.setVisible(true);
-				} else if (icedMilkPanel.isVisible()) {
+					icedWaterInCupPanel.setVisible(false);
+					icedAmericanoPanel.setVisible(false);
 					icedMilkPanel.setVisible(false);
+					icedLattePanel.setVisible(false);
+					icedChocoLattePanel.setVisible(false);
+					icedMatchaLattePanel.setVisible(false);
 					cupPanel.setVisible(true);
+				} else if (hotWaterPanel.isVisible() || hotAmericanoPanel.isVisible() || hotMilkPanel.isVisible()
+						|| hotLattePanel.isVisible() || hotChocoLattePanel.isVisible()
+						|| hotMatchaLattePanel.isVisible()) {
+					hotWaterPanel.setVisible(false);
+					hotAmericanoPanel.setVisible(false);
+					hotMilkPanel.setVisible(false);
+					hotLattePanel.setVisible(false);
+					hotChocoLattePanel.setVisible(false);
+					hotMatchaLattePanel.setVisible(false);
+					mugPanel.setVisible(true);
 				}
 			}
 		});
@@ -139,7 +354,7 @@ public class gameStart extends JFrame {
 		hintbt.setBorder(null);
 
 		// 인게임 타이머
-		TimerPanel timerPanel = new TimerPanel(1, 30);
+		TimerPanel timerPanel = new TimerPanel(0, 30);
 		JPanel timerPanelComponent = timerPanel.createTimerPanel();
 		timerPanelComponent.setBounds(10, 10, 110, 20);
 		bgPanel.add(timerPanelComponent);
@@ -153,7 +368,16 @@ public class gameStart extends JFrame {
 		JPanel randomStringPanel = menu.createRandomStringPanel();
 		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
 		bgPanel.add(randomStringPanel);
-
+		
+		submitbt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nowMenu = menu.getCurrentRandomString();
+				if(nowMenu.equals("차가운 아메리카노") && icedAmericanoPanel.isVisible()) {
+					gameScore += 100;
+				}
+			}
+		});
+		
 		// 힌트 버튼 클릭
 		hintbt.addActionListener(new ActionListener() {
 			@Override
@@ -163,7 +387,7 @@ public class gameStart extends JFrame {
 		});
 
 		bean = new JButton(new ImageIcon("images/beanbt.png"));
-		bean.setBounds(230, 80, 100, 120); // 버튼 위치와 크기 설정
+		bean.setBounds(200, 80, 100, 120); // 버튼 위치와 크기 설정
 		bean.setBorder(null);
 		bean.addActionListener(new ActionListener() {
 			@Override
@@ -171,6 +395,15 @@ public class gameStart extends JFrame {
 				if (icedMilkPanel.isVisible()) {
 					icedMilkPanel.setVisible(false);
 					icedLattePanel.setVisible(true);
+				} else if (icedWaterInCupPanel.isVisible()) {
+					icedWaterInCupPanel.setVisible(false);
+					icedAmericanoPanel.setVisible(true);
+				} else if (hotWaterPanel.isVisible()) {
+					hotWaterPanel.setVisible(false);
+					hotAmericanoPanel.setVisible(true);
+				} else if (hotMilkPanel.isVisible()) {
+					hotMilkPanel.setVisible(false);
+					hotLattePanel.setVisible(true);
 				}
 			}
 		});
@@ -178,12 +411,11 @@ public class gameStart extends JFrame {
 		bgPanel.add(bean);
 
 		iceCube = new JButton(new ImageIcon("images/icecube.png"));
-		iceCube.setBounds(60, 30, 180, 220); // 버튼 위치와 크기 설정
+		iceCube.setBounds(30, 30, 180, 220); // 버튼 위치와 크기 설정
 		iceCube.setBorder(null);
 		iceCube.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 첫 번째 패널을 보이거나 숨김
 				if (cupPanel.isVisible()) {
 					cupPanel.setVisible(false);
 					iceCubeInCupPanel.setVisible(true);
@@ -194,7 +426,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(iceCube);
 
 		icedMilk = new JButton(new ImageIcon("images/icedmilk.png"));
-		icedMilk.setBounds(760, 230, 100, 200); // 버튼 위치와 크기 설정
+		icedMilk.setBounds(610, 250, 100, 200); // 버튼 위치와 크기 설정
 		icedMilk.setBorder(null);
 		icedMilk.addActionListener(new ActionListener() {
 			@Override
@@ -207,67 +439,82 @@ public class gameStart extends JFrame {
 		});
 
 		bgPanel.add(icedMilk);
-		
+
 		hotMilk = new JButton(new ImageIcon("images/pitcher.png"));
-		hotMilk.setBounds(580, 280, 150, 110); // 버튼 위치와 크기 설정
+		hotMilk.setBounds(740, 240, 150, 170); // 버튼 위치와 크기 설정
 		hotMilk.setBorder(null);
 		hotMilk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
+				if (mugPanel.isVisible()) {
+					mugPanel.setVisible(false);
+					hotMilkPanel.setVisible(true);
 				}
 			}
 		});
-		
+
 		bgPanel.add(hotMilk);
-		
-		hotWater = new JButton(new ImageIcon("images/pod.png"));
-		hotWater.setBounds(705, 65, 200, 150); // 버튼 위치와 크기 설정
+
+		icedWater = new JButton(new ImageIcon("images/icedwater.png"));
+		icedWater.setBounds(600, 120, 130, 110); // 버튼 위치와 크기 설정
+		icedWater.setBorder(null);
+		icedWater.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (iceCubeInCupPanel.isVisible()) {
+					iceCubeInCupPanel.setVisible(false);
+					icedWaterInCupPanel.setVisible(true);
+				}
+			}
+		});
+
+		bgPanel.add(icedWater);
+
+		hotWater = new JButton(new ImageIcon("images/boiledwater.png"));
+		hotWater.setBounds(710, 60, 200, 170); // 버튼 위치와 크기 설정
 		hotWater.setBorder(null);
 		hotWater.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
+				if (mugPanel.isVisible()) {
+					mugPanel.setVisible(false);
+					hotWaterPanel.setVisible(true);
 				}
 			}
 		});
-		
+
 		bgPanel.add(hotWater);
-		
+
 		chocoPowder = new JButton(new ImageIcon("images/chocopowder.png"));
-		chocoPowder.setBounds(100, 240, 100, 124); // 버튼 위치와 크기 설정
+		chocoPowder.setBounds(70, 260, 100, 124); // 버튼 위치와 크기 설정
 		chocoPowder.setBorder(null);
 		chocoPowder.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
+				if (hotMilkPanel.isVisible()) {
+					hotMilkPanel.setVisible(false);
+					hotChocoLattePanel.setVisible(true);
 				}
 			}
 		});
-		
+
 		bgPanel.add(chocoPowder);
-		
+
 		matchaPowder = new JButton(new ImageIcon("images/matchaPowder.png"));
-		matchaPowder.setBounds(225, 240, 100, 124); // 버튼 위치와 크기 설정
+		matchaPowder.setBounds(195, 260, 100, 124); // 버튼 위치와 크기 설정
 		matchaPowder.setBorder(null);
 		matchaPowder.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
+				if (hotMilkPanel.isVisible()) {
+					hotMilkPanel.setVisible(false);
+					hotMatchaLattePanel.setVisible(true);
 				}
 			}
 		});
-		
+
 		bgPanel.add(matchaPowder);
-		
+
 		setVisible(true);
 	}
 
@@ -287,30 +534,12 @@ public class gameStart extends JFrame {
 		}
 	}
 
-	class cupPanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
-	}
-
-	class icedMilkPanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
-	}
-
-	class icedLattePanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
-	}
-
 	// 타이머 패널
 	class TimerPanel {
 		private int secondsRemaining;
 		private Timer timer;
 		private JLabel timerLabel;
-		
+
 		public TimerPanel(int minutes, int seconds) {
 			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
 			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
@@ -356,6 +585,10 @@ public class gameStart extends JFrame {
 			String randomString = strings[randomIndex];
 			outputLabel.setText(randomString);
 		}
+		
+		public String getCurrentRandomString() {
+			return outputLabel.getText();
+		}
 
 		public JPanel createRandomStringPanel() {
 			JPanel panel = new JPanel();
@@ -377,7 +610,6 @@ public class gameStart extends JFrame {
 
 			return panel;
 		}
-
 	}
 
 	// 팝업창
