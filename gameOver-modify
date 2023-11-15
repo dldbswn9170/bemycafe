@@ -1,81 +1,81 @@
 package BeMyCafe;
 
-import java.awt.*;//자바의 Window GUI프로그래밍 도구를 모두 사용하기 위함
-import java.awt.image.BufferedImage;//이용가능한 메모리를 사용하여 미리 이미지를 처리해 두는 이미지 버퍼를 사용하여 위함
-import javax.swing.*;//스윙 컴포넌트 클래스들의 경로명
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.swing.*;
 
-import java.awt.event.ActionEvent;//이벤트 실행를 위한 경로명
-import java.awt.event.ActionListener;//이벤트를 받아들인 컴포넌트 객체에 리스너를 등록하기 위
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class gameOver extends JFrame {
 	JButton restartbt;// 재시작 버튼
 	BufferedImage img = null;// 버퍼(메모리)에 이미지 올릴 때 쓰임
 
-	public void cursor() {
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image cursorimage = tk.getImage("img/cursor.png");
-		Point point = new Point(10, 10);
-		Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
-
-		this.setCursor(cursor);
-	}
-
 	public gameOver() {
-		gameOverFrame();//gameoverFrame() 호출
+		gameoverFrame();
 		cursor();
 	}
 
-	public void gameOverFrame() {
+	public void gameoverFrame() {
 		ImageIcon score = new ImageIcon("images/score.png");// 스코어 배경 이미지
 		restartbt = new JButton(new ImageIcon("images/restart-bt.png"));// 재시작 버튼 이미지
 
-		Font font = new Font("고양체", Font.BOLD, 28);//폰트 적용
+		Font font = new Font("고양체", Font.BOLD, 28);
 
-		try {
-			setTitle("Be My Cafe"); // 프레임 타이틀
-			setSize(922, 519); // 프레임 크기
-			setResizable(false); // 사이즈 재조정 불가능
-			setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
-			setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
-			setLayout(null);//배치관리자를 지정하지 않는다는 의미로 절대 위치로 컴포넌트들 나타내기
+		setTitle("Be My Cafe"); // 프레임 타이틀
+		setSize(922, 519); // 프레임 크기
+		setResizable(false); // 사이즈 재조정 불가능
+		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
+		setLayout(null);
 
-			// 최종 스코어 라벨
-			JLabel fscore = new JLabel(); // 최종 스코어 라벨 생성
-			fscore.setBounds(340, 30, 241, 30);// 최종 스코어 위치 설정
-			fscore.setText("최종 스코어");// 최종 스코어 텍스트 출력
-			fscore.setFont(font);// 최종 스코어 텍스트에 고양체 적용
-			fscore.setHorizontalAlignment(JLabel.CENTER);// 수평 가운데 정렬
-			add(fscore);// 라벨 추가
 
-			JPanel Panel1 = new JPanel() {//스코어 배경 패널 생성
-				public void paintComponent(Graphics g) {
-					g.drawImage(score.getImage(), 0, 0, 922, 519, null);//배경 이미지 아이콘 적용
-				}
-			};
-			Panel1.setBounds(0, 0, 922, 519);//패널 위치 설정
+		JPanel Panel1 = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(score.getImage(), 0, 0, 922, 519, null);
+				// 재시작 버튼
+				restartbt.setBounds(340, 358, 241, 101);// 재시작 버튼 사이즈
+				restartbt.setBorder(null);// gameover 프레임에 재시작 버튼 넣기
+				// 최종 스코어 라벨
+				JLabel fscore = new JLabel(); // 최종 스코어 라벨 생성
+				fscore.setBounds(340, 30, 241, 30);// 최종 스코어 위치 설정
+				fscore.setText("최종 스코어");// 최종 스코어 텍스트 출력
+				fscore.setFont(font);// 최종 스코어 텍스트에 고양체 적용
+				fscore.setHorizontalAlignment(JLabel.CENTER);// 수평 가운데 정렬
+				add(fscore);// 라벨 추가
 
-			add(Panel1); // 스코어 페이지 추가
+				JLabel gameScoreLabel = new JLabel(); // 최종 스코어 라벨 생성
+				gameScoreLabel.setBounds(340, 60, 241, 30);// 최종 스코어 위치 설정
+				gameScoreLabel.setText(gameStart.gameScore + "");// 최종 스코어 텍스트에 고양체 적용
+				gameScoreLabel.setFont(font);// 최종 스코어 텍스트에 고양체 적용
+				gameScoreLabel.setHorizontalAlignment(JLabel.CENTER);// 수평 가운데 정렬
+				add(gameScoreLabel);// 라벨 추가
 
-		} catch (Exception e) {//이미지 로딩 실패 시 실행
-			System.out.println("이미지 로딩 실패");
-			System.exit(0);
-		}
 
-		// 재시작 버튼
-		restartbt.setBounds(340, 358, 241, 101);// 재시작 버튼 사이즈
-		restartbt.setBorder(null);// gameover 프레임에 재시작 버튼 넣기
+				add("Center", restartbt);
+			}
+		};
+		Panel1.setBounds(0, 0, 922, 519);
 
-		add("Center", restartbt);//재시작 버튼 가운데 정렬
-		setVisible(true);//화면에 출력
+		add(Panel1); // 스코어 페이지 추가
+
+		setVisible(true);
 
 		// 재시작 버튼 클릭 시
 		restartbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false); // 창 안보이게
-				new gameStart(); // subScreen인 gameStart 화면으로
+				new gameStart();
 			}
-
 		});
 	}
-}
+
+	public void cursor() {
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		Image cursorimage = tk.getImage("images/cursor.png");
+		Point point = new Point(10, 10);
+		Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
+
+		this.setCursor(cursor);
+	}}
