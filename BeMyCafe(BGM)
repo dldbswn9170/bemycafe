@@ -8,67 +8,65 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-
 public class BeMyCafe extends JFrame {
-	JButton startbt;
-	BufferedImage img = null;
+    JButton startbt;
+    BufferedImage img = null;
+    Clip clip;
 
-	public BeMyCafe() {
-		BeMyCafeFrame();
-		cursor();
-	}
+    public BeMyCafe() {
+        BeMyCafeFrame();
+        cursor();
+    }
 
-	public void cursor() {
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image cursorimage = tk.getImage("src/img/cursor.png");
-		Point point = new Point(10, 10);
-		Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
+    public void cursor() {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Image cursorimage = tk.getImage("src/img/cursor.png");
+        Point point = new Point(10, 10);
+        Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
 
-		this.setCursor(cursor);
-	}
+        this.setCursor(cursor);
+    }
 
-	public void BeMyCafeFrame() {		
-		ImageIcon main = new ImageIcon("src/img/main.png");
-		
-		setTitle("Be My Cafe"); // 프레임 타이틀
-		setSize(922, 519); // 프레임 크기
-		setResizable(false); // 사이즈 재조정 불가능
-		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
-		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
+    public void BeMyCafeFrame() {
+        ImageIcon main = new ImageIcon("src/img/main.png");
 
-		setLayout(null);
+        setTitle("Be My Cafe"); // 프레임 타이틀
+        setSize(922, 519); // 프레임 크기
+        setResizable(false); // 사이즈 재조정 불가능
+        setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
 
-		JPanel MainPanel = new JPanel() {
-			public void paintComponent(Graphics g) {
-				g.drawImage(main.getImage(), 0, 0, 922, 519, null);
-			}
-		};
-		MainPanel.setBounds(0, 0, 922, 519);
-		MainPanel.setLayout(null);
-		
-		add(MainPanel);
-		
+        setLayout(null);
 
-		startbt = new JButton(new ImageIcon("src/img/start-bt.png"));
-		startbt.setBounds(291, 358, 341, 101);
-		startbt.setBorder(null);
+        JPanel MainPanel = new JPanel() {
+            public void paintComponent(Graphics g) {
+                g.drawImage(main.getImage(), 0, 0, 922, 519, null);
+            }
+        };
+        MainPanel.setBounds(0, 0, 922, 519);
+        MainPanel.setLayout(null);
 
-		MainPanel.add("Center", startbt);
+        add(MainPanel);
 
-		setVisible(true); // 화면에 프레임 출력
-		
-		//배경음악
-		try {
+        startbt = new JButton(new ImageIcon("src/img/start-bt.png"));
+        startbt.setBounds(291, 358, 341, 101);
+        startbt.setBorder(null);
+
+        MainPanel.add("Center", startbt);
+
+        setVisible(true); // 화면에 프레임 출력
+
+        // 배경음악 재생
+        try {
             File musicFile = new File("C:/Users/SAMSUNG/Downloads/baby-game-mane-without-laughter-8779.wav");
 
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
 
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioInputStream);
 
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -81,18 +79,35 @@ public class BeMyCafe extends JFrame {
             e.printStackTrace();
         }
 
-		// 시작 버튼 클릭 시
-		startbt.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false); // 창 안보이게
-				new gameStart(); // subScreen 화면으로
-			}
-		});
-	}
+        // 시작 버튼 클릭 시
+        startbt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
+                setVisible(false); // 창 안보이게
+                new gameStart(); // subScreen 화면으로
+            }
+        });
+    }
 
+    private void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
 
-	public static void main(String[] args) {
-		new BeMyCafe();
-	}}
+            Clip soundClip = AudioSystem.getClip();
+            soundClip.open(audioInputStream);
+            soundClip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void main(String[] args) {
+        new BeMyCafe();
+    }
+}
