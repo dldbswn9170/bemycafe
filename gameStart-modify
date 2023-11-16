@@ -65,14 +65,14 @@ public class gameStart extends JFrame {
 		cursor();
 	}
 
-	// 패널 전환과 스레드에서 쓰임 
+	// 패널 전환과 스레드에서 쓰임
 	private List<JPanel> panels;
 	private int currentPanelIndex;
 
 	private void initializePanels() {
 		panels = new ArrayList<>();
 
-		panels.add(cupPanel); //0번부터 패널 인덱스 부여 
+		panels.add(cupPanel); // 0번부터 패널 인덱스 부여
 		panels.add(iceCubeInCupPanel);
 		panels.add(icedWaterInCupPanel);
 		panels.add(icedAmericanoPanel);
@@ -403,8 +403,10 @@ public class gameStart extends JFrame {
 		bean.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (currentPanelIndex == 1) {
+				if (currentPanelIndex == 2) {
 					switchPanel(icedAmericanoPanel);
+				} else if (currentPanelIndex == 4) {
+					switchPanel(icedLattePanel);
 				} else if (currentPanelIndex == 9) {
 					switchPanel(hotAmericanoPanel);
 				} else if (currentPanelIndex == 10) {
@@ -475,7 +477,7 @@ public class gameStart extends JFrame {
 		icedWater.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (currentPanelIndex == 2) {
+				if (currentPanelIndex == 1) {
 					switchPanel(icedWaterInCupPanel);
 				} else {
 					icedWater.setEnabled(false);
@@ -531,7 +533,7 @@ public class gameStart extends JFrame {
 				if (currentPanelIndex == 4) {
 					switchPanel(icedMatchaLattePanel);
 				} else if (currentPanelIndex == 10) {
-					switchPanel(icedMatchaLattePanel);
+					switchPanel(hotMatchaLattePanel);
 				} else {
 					matchaPowder.setEnabled(false);
 					movePanelWithThread(matchaPowder, panels.get(currentPanelIndex), 5);
