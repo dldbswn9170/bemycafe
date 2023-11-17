@@ -341,10 +341,10 @@ public class GameStart extends JFrame {
 		hint.setBounds(0, 0, 922, 519);
 
 		hintbt = new JButton(new ImageIcon("images/hint.png"));
-		hintbt.setBounds(850, 425, 55, 55); // 버튼 위치와 크기 설정
+		hintbt.setBounds(850, 425, 55, 55);
 		hintbt.setBorder(null);
 
-		bgPanel.add("Center", hintbt); // 프레임에 버튼 추가 !!
+		bgPanel.add("Center", hintbt);
 
 		// 인게임 타이머
 		TimerPanel timerPanel = new TimerPanel(1, 30);
