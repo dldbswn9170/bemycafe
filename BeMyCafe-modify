@@ -29,7 +29,9 @@ public class BeMyCafe extends JFrame {
 		this.setCursor(cursor);
 	}
 
-	public void BeMyCafeFrame() {		
+	public void BeMyCafeFrame() {
+		ImageIcon main = new ImageIcon("images/main.png");
+
 		setTitle("Be My Cafe"); // 프레임 타이틀
 		setSize(922, 519); // 프레임 크기
 		setResizable(false); // 사이즈 재조정 불가능
@@ -37,28 +39,23 @@ public class BeMyCafe extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
 
 		setLayout(null);
-		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setBounds(0, 0, 922, 519);
-		layeredPane.setLayout(null);
 
-		try {
-			img = ImageIO.read(new File("images/main.png"));
-		} catch (IOException e) {
-			System.out.println("이미지 로딩 실패");
-			System.exit(0);
-		}
+		JPanel MainPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(main.getImage(), 0, 0, 922, 519, null);
+			}
+		};
+		MainPanel.setBounds(0, 0, 922, 519);
+		MainPanel.setLayout(null);
 
-		BeMyCafePanel startpn = new BeMyCafePanel();
-		startpn.setBounds(0, 0, 922, 519);
+		add(MainPanel);
 
 		startbt = new JButton(new ImageIcon("images/start-bt.png"));
 		startbt.setBounds(291, 358, 341, 101);
 		startbt.setBorder(null);
 
-		layeredPane.add("Center", startbt);
-		layeredPane.add(startpn);
+		MainPanel.add("Center", startbt);
 
-		add(layeredPane);
 		setVisible(true); // 화면에 프레임 출력
 
 		// 시작 버튼 클릭 시
@@ -66,15 +63,9 @@ public class BeMyCafe extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false); // 창 안보이게
-				new gameStart(); // subScreen 화면으로
+				new GameStart(); // subScreen 화면으로
 			}
 		});
-	}
-
-	class BeMyCafePanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
 	}
 
 	public static void main(String[] args) {
