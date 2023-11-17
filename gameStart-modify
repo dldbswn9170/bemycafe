@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 // gameStart클래스는 이미 JFrame의 하위 클래스로 정의되어있으므로
 // gameStart 객체가 JFrame 자체
-public class gameStart extends JFrame {
+public class GameStart extends JFrame {
 	public static int gameScore = 0;
 
 	// 아이스
@@ -59,8 +59,8 @@ public class gameStart extends JFrame {
 	JLabel timerLabel;
 
 	// 생성자
-	public gameStart() {
-		gameStartFrame();
+	public GameStart() {
+		GameStartFrame();
 		initializePanels();
 		cursor();
 	}
@@ -92,7 +92,7 @@ public class gameStart extends JFrame {
 	}
 
 	// 인게임 프레임
-	public void gameStartFrame() {
+	public void GameStartFrame() {
 		ImageIcon background = new ImageIcon("images/background.png");
 		ImageIcon cup = new ImageIcon("images/cup.png");
 		ImageIcon mug = new ImageIcon("images/mug.png");
@@ -275,7 +275,7 @@ public class gameStart extends JFrame {
 		add(hotMatchaLattePanel);
 		add(cupPanel);
 		add(mugPanel);
-		add(bgPanel); // Panel1을 맨아래 둬서 배경이미지처럼
+		add(bgPanel); // 배경 패널 맨 밑에
 
 		// 컵 변경 왼쪽
 		leftbt = new JButton(new ImageIcon("images/left.png"));
@@ -336,7 +336,7 @@ public class gameStart extends JFrame {
 		bgPanel.add("Center", submitbt);
 
 		// 하단 힌트
-		gameStartPanel hint = new gameStartPanel();
+		GameStartPanel hint = new GameStartPanel();
 
 		hint.setBounds(0, 0, 922, 519);
 
@@ -353,7 +353,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(timerPanelComponent);
 
 		// 인게임 스코어
-		scorePanel scorePanel = new scorePanel();
+		ScorePanel scorePanel = new ScorePanel();
 		JPanel scorePanelComponent = scorePanel.createScorePanel();
 		scorePanelComponent.setBounds(414, 10, 110, 20);
 		bgPanel.add(scorePanelComponent);
@@ -363,7 +363,7 @@ public class gameStart extends JFrame {
 				"차가운 녹차 라떼" };
 		RandomStringPanel menu = new RandomStringPanel(strings);
 		JPanel randomStringPanel = menu.createRandomStringPanel();
-		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
+		randomStringPanel.setBounds(802, 0, 110, 50);
 		bgPanel.add(randomStringPanel);
 
 		submitbt.addActionListener(new ActionListener() {
@@ -398,7 +398,7 @@ public class gameStart extends JFrame {
 		});
 
 		bean = new JButton(new ImageIcon("images/beanbt.png"));
-		bean.setBounds(200, 80, 100, 120); // 버튼 위치와 크기 설정
+		bean.setBounds(200, 80, 100, 120);
 		bean.setBorder(null);
 		bean.addActionListener(new ActionListener() {
 			@Override
@@ -438,7 +438,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(iceCube);
 
 		icedMilk = new JButton(new ImageIcon("images/icedmilk.png"));
-		icedMilk.setBounds(610, 250, 100, 200); // 버튼 위치와 크기 설정
+		icedMilk.setBounds(610, 250, 100, 200);
 		icedMilk.setBorder(null);
 		icedMilk.addActionListener(new ActionListener() {
 			@Override
@@ -455,7 +455,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(icedMilk);
 
 		hotMilk = new JButton(new ImageIcon("images/pitcher.png"));
-		hotMilk.setBounds(740, 240, 150, 170); // 버튼 위치와 크기 설정
+		hotMilk.setBounds(740, 240, 150, 170);
 		hotMilk.setBorder(null);
 		hotMilk.addActionListener(new ActionListener() {
 			@Override
@@ -472,7 +472,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(hotMilk);
 
 		icedWater = new JButton(new ImageIcon("images/icedwater.png"));
-		icedWater.setBounds(600, 120, 130, 110); // 버튼 위치와 크기 설정
+		icedWater.setBounds(600, 120, 130, 110);
 		icedWater.setBorder(null);
 		icedWater.addActionListener(new ActionListener() {
 			@Override
@@ -489,7 +489,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(icedWater);
 
 		hotWater = new JButton(new ImageIcon("images/boiledwater.png"));
-		hotWater.setBounds(710, 60, 200, 170); // 버튼 위치와 크기 설정
+		hotWater.setBounds(710, 60, 200, 170);
 		hotWater.setBorder(null);
 		hotWater.addActionListener(new ActionListener() {
 			@Override
@@ -506,7 +506,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(hotWater);
 
 		chocoPowder = new JButton(new ImageIcon("images/chocopowder.png"));
-		chocoPowder.setBounds(70, 260, 100, 124); // 버튼 위치와 크기 설정
+		chocoPowder.setBounds(70, 260, 100, 124);
 		chocoPowder.setBorder(null);
 		chocoPowder.addActionListener(new ActionListener() {
 			@Override
@@ -525,7 +525,7 @@ public class gameStart extends JFrame {
 		bgPanel.add(chocoPowder);
 
 		matchaPowder = new JButton(new ImageIcon("images/matchaPowder.png"));
-		matchaPowder.setBounds(195, 260, 100, 124); // 버튼 위치와 크기 설정
+		matchaPowder.setBounds(195, 260, 100, 124);
 		matchaPowder.setBorder(null);
 		matchaPowder.addActionListener(new ActionListener() {
 			@Override
@@ -553,11 +553,11 @@ public class gameStart extends JFrame {
 		currentPanelIndex = panels.indexOf(newPanel);
 	}
 
-	// 패널 흔들림 효과 관련 스레드
+	// 패널 흔들림 효과 스레드
 	private static void movePanelWithThread(JButton button, JPanel panel, int xOffset) {
 		new Thread(() -> {
-			movePanel(panel, xOffset);
-			sleep(50);
+			movePanel(panel, xOffset); // 패널 x축 이동
+			sleep(50); // 0.05초 sleep
 			movePanel(panel, -xOffset);
 			sleep(50);
 			movePanel(panel, -xOffset);
@@ -570,6 +570,7 @@ public class gameStart extends JFrame {
 		}).start();
 	}
 
+	// 패널 흔들림 효과 함수
 	private static void movePanel(JPanel panel, int xOffset) {
 		SwingUtilities.invokeLater(() -> {
 			panel.setLocation(panel.getLocation().x + xOffset, panel.getLocation().y);
@@ -594,7 +595,7 @@ public class gameStart extends JFrame {
 		this.setCursor(cursor);
 	}
 
-	class gameStartPanel extends JPanel {
+	class GameStartPanel extends JPanel {
 		public void paint(Graphics g) {
 			g.drawImage(img, 0, 0, null);
 		}
@@ -618,7 +619,7 @@ public class gameStart extends JFrame {
 					if (secondsRemaining <= 0) {
 						timer.stop();
 						setVisible(false);
-						new gameOver();
+						new GameOver();
 					}
 				}
 			});
@@ -635,16 +636,16 @@ public class gameStart extends JFrame {
 	}
 
 	// 스코어 패널
-	class scorePanel {
+	class ScorePanel {
 		private JLabel scoreLabel;
 
-		public scorePanel() {
-			scoreLabel = new JLabel("현재 점수 " + gameStart.gameScore + "점");
+		public ScorePanel() {
+			scoreLabel = new JLabel("현재 점수 " + GameStart.gameScore + "점");
 			createScorePanel();
 		}
 
 		public void setScoreLabel() {
-			scoreLabel.setText("현재 점수 " + gameStart.gameScore + "점");
+			scoreLabel.setText("현재 점수 " + GameStart.gameScore + "점");
 		}
 
 		public JPanel createScorePanel() {
