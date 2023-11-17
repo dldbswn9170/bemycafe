@@ -5,15 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class gameOver extends JFrame {
+public class GameOver extends JFrame {
     JButton restartbt;
 
-    public gameOver() {
-        gameoverFrame();
+    public GameOver() {
+        GameOverFrame();
         cursor();
     }
 
-    public void gameoverFrame() {
+    public void GameOverFrame() {
         ImageIcon score = new ImageIcon("images/score.png");
         restartbt = new JButton(new ImageIcon("images/restart-bt.png"));
 
@@ -46,7 +46,7 @@ public class gameOver extends JFrame {
         fscore.setHorizontalAlignment(JLabel.CENTER);
         Panel1.add(fscore);
 
-        JLabel gameScoreLabel = new JLabel(gameStart.gameScore + " 점");
+        JLabel gameScoreLabel = new JLabel(GameStart.gameScore + " 점");
         gameScoreLabel.setBounds(340, 200, 241, 30);
         gameScoreLabel.setFont(font);
         gameScoreLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -60,7 +60,7 @@ public class gameOver extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                new gameStart();
+                new GameStart();
             }
         });
     }
