@@ -19,8 +19,8 @@ public class gameOver extends JFrame {
     }
 
     public void gameoverFrame() {
-        ImageIcon score = new ImageIcon("src/img/score.png");// 스코어 배경 이미지
-        restartbt = new JButton(new ImageIcon("src/img/restart-bt.png"));// 재시작 버튼 이미지
+        ImageIcon score = new ImageIcon("img/score.png");// 스코어 배경 이미지
+        restartbt = new JButton(new ImageIcon("img/restart-bt.png"));// 재시작 버튼 이미지
 
         Font font = new Font("고양체", Font.BOLD, 28);
 
@@ -43,7 +43,7 @@ public class gameOver extends JFrame {
 
         //배경음악
         try {
-            File musicFile = new File("C:/Users/SAMSUNG/Downloads/baby-game-mane-without-laughter-8779.wav");
+            File musicFile = new File("bgm/baby-game-mane-without-laughter-8779.wav");
 
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
 
@@ -91,7 +91,7 @@ public class gameOver extends JFrame {
                     clip.stop();
                     clip.close();
                 }
-                playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
                 setVisible(false); // 창 안보이게
                 new gameStart();
             }
@@ -115,7 +115,7 @@ public class gameOver extends JFrame {
 
     public void cursor() {
         Toolkit tk = Toolkit.getDefaultToolkit();
-        Image cursorimage = tk.getImage("src/img/cursor.png");
+        Image cursorimage = tk.getImage("img/cursor.png");
         Point point = new Point(10, 10);
         Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
 
