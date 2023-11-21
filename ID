@@ -8,93 +8,108 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
-public class ID extends JFrame{
+public class ID extends JFrame {
     Clip clip;
 
-	public ID() {
-		IDFrame();
-		cursor();
-	}
-	public void cursor() {
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		Image cursorimage = tk.getImage("img/cursor.png");
-		Point point = new Point(10, 10);
-		Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
+    public ID() {
+        IDFrame();
+        cursor();
+    }
 
-		this.setCursor(cursor);
-	}
+    public void cursor() {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Image cursorimage = tk.getImage("src/img/cursor.png");
+        Point point = new Point(10, 10);
+        Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
+        this.setCursor(cursor);
+    }
 
-	public void IDFrame() {
-        Font font = new Font("고양체", Font.BOLD, 12);		
-	    try {
-	        // 프레임 생성
-	        setTitle("ID");
-	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        setSize(505, 519);
-			setLocationRelativeTo(null);
+    public void IDFrame() {
+        Font font = new Font("고양체", Font.BOLD, 12);
+        try {
+            setTitle("ID");
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setSize(505, 519);
+            setLocationRelativeTo(null);
 
-	        // 배경 이미지 설정
-	        BufferedImage image = ImageIO.read(new File("img/background.png")); // 팝업 배경 이미지
+            BufferedImage image = ImageIO.read(new File("src/img/background.png"));
+            setContentPane(new JLabel(new ImageIcon(image)));
 
-	        // 이미지를 화면에 표시
-	        setContentPane(new JLabel(new ImageIcon(image)));
+            setLayout(new GridBagLayout());
 
-	        // 레이아웃 설정
-	        setLayout(new GridBagLayout());
+            JPanel idPanel = new JPanel();
+            idPanel.setOpaque(false);
+            idPanel.setLayout(new BorderLayout()); // Use BorderLayout
 
-	        // ID 입력 패널 생성
-	        JPanel idPanel = new JPanel();
-	        idPanel.setOpaque(false);
-	        idPanel.setLayout(new FlowLayout());
+            JLabel idLabel = new JLabel("ID (MAX10)\n");
+            idLabel.setFont(font);
+            idPanel.add(idLabel, BorderLayout.NORTH); // Add to NORTH position
 
-	        // ID 입력 레이블
-	        JLabel idLabel = new JLabel("ID (MAX10)\n");
-	        idLabel.setFont(font);
-	        idPanel.add(idLabel);
+            JTextField idTextField = new JTextField(10);
+            idPanel.add(idTextField, BorderLayout.CENTER); // Add to CENTER position
 
-	        // ID 입력 필드
-	        JTextField idTextField = new JTextField(10);
-	        idPanel.add(idTextField);
+            JButton confirmButton = new JButton("확인");
+            confirmButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String id = idTextField.getText();
 
-	        // 확인 버튼
-	        JButton confirmButton = new JButton("확인");
-	        confirmButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                String id = idTextField.getText();
-	                if (id.isEmpty()) {
-	                	if (clip != null && clip.isRunning()) {
-		                    clip.stop();
-		                    clip.close();
-		                }
-	                    setVisible(false); // 창 안보이게
-	                    new ID(); // 페이지 넘어가기	                
-	                    } else {
-	                    setVisible(false); // 창 안보이게
-	                    new gameStart();	                }
-	                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                idTextField.setText(""); // 입력란 비워지도록 설정
-	                setVisible(false); // 창 안보이게
-	            }
-	        });
-	        confirmButton.setBounds(202, 234, 100, 50);
-	        idPanel.add(confirmButton);
+                    if (id.isEmpty()) {
+                        if (clip != null && clip.isRunning()) {
+                            clip.stop();
+                            clip.close();
+                        }
+                        setVisible(false);
+                        new ID();
+                    } else {
+                        setVisible(false);
+                        new gameStart();
+                    }
 
-	        // ID 입력 패널을 프레임에 추가
-	        GridBagConstraints gbc = new GridBagConstraints();
-	        gbc.gridx = 0;
-	        gbc.gridy = 0;
-	        gbc.weighty = 1.0;
-	        gbc.anchor = GridBagConstraints.CENTER;
-	        add(idPanel, gbc);
+                    playSound("bgm/1127810D49BC9CA38B.wav");
+                    idTextField.setText("");
+                    setVisible(false);
 
-	        // 프레임 표시
-	        setVisible(true);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	}
+                    try {
+                        Connection conn;
+                        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_member?serverTimezone=UTC", "root", "1234");
+                        System.out.println("데이터베이스 연결 성공");
+
+                        String sql = "INSERT INTO information (UserName) VALUES (?)";
+
+                        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+                            preparedStatement.setString(1, id);
+                            preparedStatement.executeUpdate();
+                            System.out.println("데이터베이스에 이름이 저장되었습니다.");
+                        }
+
+                        conn.close();
+                    } catch (Exception ex) {
+                        System.out.println("오류:" + ex);
+                    }
+                }
+            });
+
+            confirmButton.setBounds(202, 234, 100, 50);
+
+            idPanel.add(confirmButton, BorderLayout.SOUTH); 
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.weighty = 1.0;
+            gbc.anchor = GridBagConstraints.CENTER;
+            add(idPanel, gbc);
+
+            setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void playSound(String soundFilePath) {
         try {
@@ -108,10 +123,8 @@ public class ID extends JFrame{
             e.printStackTrace();
         }
     }
-    
+
     public static void main(String[] args) {
-		new ID();
-	}
+        new ID();
+    }
 }
-
-
