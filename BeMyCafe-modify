@@ -63,7 +63,7 @@ public class BeMyCafe extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false); // 창 안보이게
-				new GameStart(); // subScreen 화면으로
+				new ID(); // subScreen 화면으로
 			}
 		});
 	}
