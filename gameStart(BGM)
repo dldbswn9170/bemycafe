@@ -1,33 +1,51 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
-
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-//배경음악
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 // gameStart클래스는 이미 JFrame의 하위 클래스로 정의되어있으므로
 // gameStart 객체가 JFrame 자체
 public class gameStart extends JFrame {
-	private String[] buttonClickOrder = new String[3]; // 크기를 3으로 지정
-	int currentButtonClickIndex = 0; // 현재 버튼 클릭 순서의 인덱스
-	
-	int secondsRemaining;
-	Timer timer;
-	JLabel timerLabel;
+    Clip clip;
+    private Clip backgroundMusicClip; // 배경음악을 재생할 Clip 객체
 
+	public static int gameScore = 0;
+
+	// 아이스
+	JPanel cupPanel;
+	JPanel iceCubeInCupPanel;
+	JPanel icedWaterInCupPanel;
+	JPanel icedAmericanoPanel;
+	JPanel icedMilkPanel;
+	JPanel icedLattePanel;
+	JPanel icedChocoLattePanel;
+	JPanel icedMatchaLattePanel;
+	// 핫
+	JPanel mugPanel;
+	JPanel hotWaterPanel;
+	JPanel hotMilkPanel;
+	JPanel hotAmericanoPanel;
+	JPanel hotLattePanel;
+	JPanel hotChocoLattePanel;
+	JPanel hotMatchaLattePanel;
+
+	// 버튼
+	JButton leftbt;
+	JButton rightbt;
 	JButton submitbt;
 	JButton hintbt;
 	JButton bean;
@@ -38,26 +56,65 @@ public class gameStart extends JFrame {
 	JButton hotWater;
 	JButton chocoPowder;
 	JButton matchaPowder;
-	
-    Clip clip;
-	
 
 	BufferedImage img = null;
-	
+
+	// 타이머 관련
+	int secondsRemaining;
+	Timer timer;
+	JLabel timerLabel;
+
 	// 생성자
 	public gameStart() {
-		gameStartFrame();
+		GameStartFrame();
+		initializePanels();
 		cursor();
 	}
 
+	// 패널 전환과 스레드에서 쓰임
+	private List<JPanel> panels;
+	private int currentPanelIndex;
+
+	private void initializePanels() {
+		panels = new ArrayList<>();
+
+		panels.add(cupPanel); // 0번부터 패널 인덱스 부여
+		panels.add(iceCubeInCupPanel);
+		panels.add(icedWaterInCupPanel);
+		panels.add(icedAmericanoPanel);
+		panels.add(icedMilkPanel);
+		panels.add(icedLattePanel);
+		panels.add(icedChocoLattePanel);
+		panels.add(icedMatchaLattePanel);
+		panels.add(mugPanel);
+		panels.add(hotWaterPanel);
+		panels.add(hotMilkPanel);
+		panels.add(hotAmericanoPanel);
+		panels.add(hotLattePanel);
+		panels.add(hotChocoLattePanel);
+		panels.add(hotMatchaLattePanel);
+
+		currentPanelIndex = 0;
+	}
+
 	// 인게임 프레임
-	public void gameStartFrame() {
+	public void GameStartFrame() {
 		ImageIcon background = new ImageIcon("img/background.png");
 		ImageIcon cup = new ImageIcon("img/cup.png");
+		ImageIcon mug = new ImageIcon("img/mug.png");
 		ImageIcon icecubeincup = new ImageIcon("img/icecubeincup.png");
+		ImageIcon icedwaterincup = new ImageIcon("img/icedwaterincup.png");
+		ImageIcon icedamericano = new ImageIcon("img/icedamericano.png");
 		ImageIcon icedmilkincup = new ImageIcon("img/icedmilkincup.png");
 		ImageIcon icedlatte = new ImageIcon("img/icedlatte.png");
-		ImageIcon icedwater = new ImageIcon("img/icedwater.png");
+		ImageIcon icedchocolatte = new ImageIcon("img/icedchocolatte.png");
+		ImageIcon icedmatchalatte = new ImageIcon("img/icedmatchalatte.png");
+		ImageIcon hotwater = new ImageIcon("img/hotwater.png");
+		ImageIcon hotmilk = new ImageIcon("img/hotmilk.png");
+		ImageIcon hotamericano = new ImageIcon("img/hotamericano.png");
+		ImageIcon hotlatte = new ImageIcon("img/hotlatte.png");
+		ImageIcon hotchocolatte = new ImageIcon("img/hotchocolatte.png");
+		ImageIcon hotmatchalatte = new ImageIcon("img/hotmatchalatte.png");
 
 		setTitle("Be My Cafe"); // 프레임 타이틀
 		setSize(922, 519); // 프레임 크기
@@ -65,62 +122,219 @@ public class gameStart extends JFrame {
 		setLocationRelativeTo(null); // 창이 가운데에 뜨도록 함
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // 창을 끄면 프로그램을 종료
 		setLayout(null);
-		
-		//배경음악
-		BackgroundMusicThread backgroundMusicThread = new BackgroundMusicThread();
-        backgroundMusicThread.start();
 
 		JPanel bgPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(background.getImage(), 0, 0, 922, 519, null);
 			}
+			
 		};
 		bgPanel.setBounds(0, 0, 922, 519);
 		bgPanel.setLayout(null);
 
-		JPanel cupPanel = new JPanel() {
+		cupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(cup.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(cup.getImage(), 383, 60, 155, 305, null);
 			}
 		};
 		cupPanel.setBounds(0, 0, 922, 519);
 		cupPanel.setLayout(null);
 
-		JPanel iceCubeInCupPanel = new JPanel() {
+		mugPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icecubeincup.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(mug.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		mugPanel.setBounds(0, 0, 922, 519);
+		mugPanel.setLayout(null);
+		mugPanel.setVisible(false);
+
+		iceCubeInCupPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icecubeincup.getImage(), 383, 60, 155, 305, null);
 			}
 		};
 		iceCubeInCupPanel.setBounds(0, 0, 922, 519);
 		iceCubeInCupPanel.setLayout(null);
 		iceCubeInCupPanel.setVisible(false);
 
-		JPanel icedMilkPanel = new JPanel() {
+		icedWaterInCupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedmilkincup.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(icedwaterincup.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedWaterInCupPanel.setBounds(0, 0, 922, 519);
+		icedWaterInCupPanel.setLayout(null);
+		icedWaterInCupPanel.setVisible(false);
+
+		hotWaterPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotwater.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotWaterPanel.setBounds(0, 0, 922, 519);
+		hotWaterPanel.setLayout(null);
+		hotWaterPanel.setVisible(false);
+
+		icedAmericanoPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedamericano.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedAmericanoPanel.setBounds(0, 0, 922, 519);
+		icedAmericanoPanel.setLayout(null);
+		icedAmericanoPanel.setVisible(false);
+
+		hotAmericanoPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotamericano.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotAmericanoPanel.setBounds(0, 0, 922, 519);
+		hotAmericanoPanel.setLayout(null);
+		hotAmericanoPanel.setVisible(false);
+
+		icedMilkPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedmilkincup.getImage(), 383, 60, 155, 305, null);
 			}
 		};
 		icedMilkPanel.setBounds(0, 0, 922, 519);
 		icedMilkPanel.setLayout(null);
 		icedMilkPanel.setVisible(false);
 
-		JPanel icedLattePanel = new JPanel() {
+		hotMilkPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedlatte.getImage(), 380, 60, 155, 305, null);
+				g.drawImage(hotmilk.getImage(), 368, 135, 185, 210, null);
 			}
 		};
-		
-		
+		hotMilkPanel.setBounds(0, 0, 922, 519);
+		hotMilkPanel.setLayout(null);
+		hotMilkPanel.setVisible(false);
+
+		icedLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedlatte.getImage(), 383, 60, 155, 305, null);
+			}
+		};
 		icedLattePanel.setBounds(0, 0, 922, 519);
 		icedLattePanel.setLayout(null);
 		icedLattePanel.setVisible(false);
 
+		icedChocoLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedchocolatte.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedChocoLattePanel.setBounds(0, 0, 922, 519);
+		icedChocoLattePanel.setLayout(null);
+		icedChocoLattePanel.setVisible(false);
+
+		icedMatchaLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(icedmatchalatte.getImage(), 383, 60, 155, 305, null);
+			}
+		};
+		icedMatchaLattePanel.setBounds(0, 0, 922, 519);
+		icedMatchaLattePanel.setLayout(null);
+		icedMatchaLattePanel.setVisible(false);
+
+		hotLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotlatte.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotLattePanel.setBounds(0, 0, 922, 519);
+		hotLattePanel.setLayout(null);
+		hotLattePanel.setVisible(false);
+
+		hotChocoLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotchocolatte.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotChocoLattePanel.setBounds(0, 0, 922, 519);
+		hotChocoLattePanel.setLayout(null);
+		hotChocoLattePanel.setVisible(false);
+
+		hotMatchaLattePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(hotmatchalatte.getImage(), 368, 135, 185, 210, null);
+			}
+		};
+		hotMatchaLattePanel.setBounds(0, 0, 922, 519);
+		hotMatchaLattePanel.setLayout(null);
+		hotMatchaLattePanel.setVisible(false);
+
 		// 컵 위치
 		add(iceCubeInCupPanel);
+		add(icedWaterInCupPanel);
+		add(icedAmericanoPanel);
 		add(icedMilkPanel);
 		add(icedLattePanel);
+		add(icedChocoLattePanel);
+		add(icedMatchaLattePanel);
+		add(hotWaterPanel);
+		add(hotMilkPanel);
+		add(hotAmericanoPanel);
+		add(hotLattePanel);
+		add(hotChocoLattePanel);
+		add(hotMatchaLattePanel);
 		add(cupPanel);
-		add(bgPanel); // Panel1을 맨아래 둬서 배경이미지처럼
+		add(mugPanel);
+		add(bgPanel); // 배경 패널 맨 밑에
+
+		// 컵 변경 왼쪽
+		leftbt = new JButton(new ImageIcon("img/left.png"));
+		leftbt.setBounds(311, 209, 50, 50);
+		leftbt.setBorder(null);
+		leftbt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 0) {
+					switchPanel(mugPanel);
+				} else if (currentPanelIndex == 8) {
+					switchPanel(cupPanel);
+				} else if (currentPanelIndex <= 7) {
+					switchPanel(mugPanel);
+				} else {
+					switchPanel(cupPanel);
+				}
+			}
+		});
+
+		bgPanel.add(leftbt);
+
+		// 컵 변경 오른쪽
+		rightbt = new JButton(new ImageIcon("img/right.png"));
+		rightbt.setBounds(561, 209, 50, 50);
+		rightbt.setBorder(null);
+		rightbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 0) {
+					
+					switchPanel(mugPanel);
+				} else if (currentPanelIndex == 8) {
+					switchPanel(cupPanel);
+				} else if (currentPanelIndex <= 7) {
+					switchPanel(mugPanel);
+				} else {
+					switchPanel(cupPanel);
+				}
+			}
+		});
+
+		bgPanel.add(rightbt);
 
 		// 제조 완료 버튼
 		submitbt = new JButton(new ImageIcon("img/submit.png"));
@@ -129,31 +343,15 @@ public class gameStart extends JFrame {
 		submitbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (icedLattePanel.isVisible()) {
-					if (clip != null && clip.isRunning()) {
-	                    clip.stop();
-	                    clip.close();
-	                }
-					playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-					icedLattePanel.setVisible(false);
-					cupPanel.setVisible(true);
-				} else if (iceCubeInCupPanel.isVisible()) {
-					if (clip != null && clip.isRunning()) {
-	                    clip.stop();
-	                    clip.close();
-	                }
-					playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-					iceCubeInCupPanel.setVisible(false);
-					cupPanel.setVisible(true);
-					cupPanel.setVisible(true);
-				} else if (icedMilkPanel.isVisible()) {
-					if (clip != null && clip.isRunning()) {
-	                    clip.stop();
-	                    clip.close();
-	                }
-					playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-					icedMilkPanel.setVisible(false);
-					cupPanel.setVisible(true);
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex <= 7) {
+					switchPanel(cupPanel);
+				} else {
+					switchPanel(mugPanel);
 				}
 			}
 		});
@@ -161,13 +359,15 @@ public class gameStart extends JFrame {
 		bgPanel.add("Center", submitbt);
 
 		// 하단 힌트
-		gameStartPanel hint = new gameStartPanel();
+		GameStartPanel hint = new GameStartPanel();
 
 		hint.setBounds(0, 0, 922, 519);
 
 		hintbt = new JButton(new ImageIcon("img/hint.png"));
-		hintbt.setBounds(850, 425, 55, 55); // 버튼 위치와 크기 설정
+		hintbt.setBounds(850, 425, 55, 55);
 		hintbt.setBorder(null);
+
+		bgPanel.add("Center", hintbt);
 
 		// 인게임 타이머
 		TimerPanel timerPanel = new TimerPanel(1, 30);
@@ -175,15 +375,42 @@ public class gameStart extends JFrame {
 		timerPanelComponent.setBounds(10, 10, 110, 20);
 		bgPanel.add(timerPanelComponent);
 
-		bgPanel.add("Center", hintbt); // 프레임에 버튼 추가 !!
+		// 인게임 스코어
+		ScorePanel scorePanel = new ScorePanel();
+		JPanel scorePanelComponent = scorePanel.createScorePanel();
+		scorePanelComponent.setBounds(414, 10, 110, 20);
+		bgPanel.add(scorePanelComponent);
 
 		// 인게임 메뉴판
 		String[] strings = { "따뜻한 아메리카노", "차가운 아메리카노", "따뜻한 카페 라떼", "차가운 카페 라떼", "따뜻한 초코 라떼", "차가운 초코 라떼", "따뜻한 녹차 라떼",
 				"차가운 녹차 라떼" };
 		RandomStringPanel menu = new RandomStringPanel(strings);
 		JPanel randomStringPanel = menu.createRandomStringPanel();
-		randomStringPanel.setBounds(802, 0, 110, 50); // 패널의 위치와 크기를 설정
+		randomStringPanel.setBounds(802, 0, 110, 50);
 		bgPanel.add(randomStringPanel);
+
+		submitbt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nowMenu = menu.getCurrentRandomString();
+				if (nowMenu.equals("차가운 아메리카노") && icedAmericanoPanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 아메리카노") && hotAmericanoPanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("차가운 카페 라떼") && icedLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 카페 라떼") && hotLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("차가운 초코 라떼") && icedChocoLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 초코 라떼") && hotChocoLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("차가운 녹차 라떼") && icedMatchaLattePanel.isVisible()) {
+					gameScore += 50;
+				} else if (nowMenu.equals("따뜻한 녹차 라떼") && hotMatchaLattePanel.isVisible()) {
+					gameScore += 50;
+				}
+			}
+		});
 
 		// 힌트 버튼 클릭
 		hintbt.addActionListener(new ActionListener() {
@@ -193,20 +420,33 @@ public class gameStart extends JFrame {
                     clip.stop();
                     clip.close();
                 }
-				playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				popup();
 			}
 		});
 
 		bean = new JButton(new ImageIcon("img/beanbt.png"));
-		bean.setBounds(230, 80, 100, 120); // 버튼 위치와 크기 설정
+		bean.setBounds(200, 80, 100, 120);
 		bean.setBorder(null);
 		bean.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (icedMilkPanel.isVisible()) {
-					icedMilkPanel.setVisible(false);
-					icedLattePanel.setVisible(true);
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 2) {
+					switchPanel(icedAmericanoPanel);
+				} else if (currentPanelIndex == 4) {
+					switchPanel(icedLattePanel);
+				} else if (currentPanelIndex == 9) {
+					switchPanel(hotAmericanoPanel);
+				} else if (currentPanelIndex == 10) {
+					switchPanel(hotLattePanel);
+				} else {
+					bean.setEnabled(false);
+					movePanelWithThread(bean, panels.get(currentPanelIndex), 5);
 				}
 			}
 		});
@@ -214,15 +454,21 @@ public class gameStart extends JFrame {
 		bgPanel.add(bean);
 
 		iceCube = new JButton(new ImageIcon("img/icecube.png"));
-		iceCube.setBounds(60, 30, 180, 220); // 버튼 위치와 크기 설정
+		iceCube.setBounds(30, 30, 180, 220); // 버튼 위치와 크기 설정
 		iceCube.setBorder(null);
 		iceCube.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 첫 번째 패널을 보이거나 숨김
-				if (cupPanel.isVisible()) {
-					cupPanel.setVisible(false);
-					iceCubeInCupPanel.setVisible(true);
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 0) {
+					switchPanel(iceCubeInCupPanel);
+				} else {
+					iceCube.setEnabled(false);
+					movePanelWithThread(iceCube, panels.get(currentPanelIndex), 5);
 				}
 			}
 		});
@@ -230,253 +476,187 @@ public class gameStart extends JFrame {
 		bgPanel.add(iceCube);
 
 		icedMilk = new JButton(new ImageIcon("img/icedmilk.png"));
-		icedMilk.setBounds(760, 230, 100, 200); // 버튼 위치와 크기 설정
+		icedMilk.setBounds(610, 250, 100, 200);
 		icedMilk.setBorder(null);
 		icedMilk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 1) {
+					switchPanel(icedMilkPanel);
+				} else {
+					icedMilk.setEnabled(false);
+					movePanelWithThread(icedMilk, panels.get(currentPanelIndex), 5);
 				}
 			}
 		});
 
 		bgPanel.add(icedMilk);
-		
+
 		hotMilk = new JButton(new ImageIcon("img/pitcher.png"));
-		hotMilk.setBounds(580, 280, 150, 110); // 버튼 위치와 크기 설정
+		hotMilk.setBounds(740, 240, 150, 170);
 		hotMilk.setBorder(null);
 		hotMilk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 8) {
+					switchPanel(hotMilkPanel);
+				} else {
+					hotMilk.setEnabled(false);
+					movePanelWithThread(hotMilk, panels.get(currentPanelIndex), 5);
 				}
 			}
 		});
-		
-		bgPanel.add(hotMilk);
-		
-		hotWater = new JButton(new ImageIcon("img/pod.png"));
-		hotWater.setBounds(705, 65, 200, 150); // 버튼 위치와 크기 설정
-		hotWater.setBorder(null);
-		hotWater.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
-				}
-			}
-		});
-		
-		bgPanel.add(hotWater);
-		
-		chocoPowder = new JButton(new ImageIcon("img/chocopowder.png"));
-		chocoPowder.setBounds(100, 240, 100, 124); // 버튼 위치와 크기 설정
-		chocoPowder.setBorder(null);
-		chocoPowder.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
-				}
-			}
-		});
-		
-		bgPanel.add(chocoPowder);
-		
-		matchaPowder = new JButton(new ImageIcon("img/matchaPowder.png"));
-		matchaPowder.setBounds(225, 240, 100, 124); // 버튼 위치와 크기 설정
-		matchaPowder.setBorder(null);
-		matchaPowder.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
-				}
-			}
-		});
-		
-		bgPanel.add(matchaPowder);
 
-		
+		bgPanel.add(hotMilk);
+
 		icedWater = new JButton(new ImageIcon("img/icedwater.png"));
-		icedWater.setBounds(580, 65, 100, 124); // 버튼 위치와 크기 설정
+		icedWater.setBounds(600, 120, 130, 110);
 		icedWater.setBorder(null);
 		icedWater.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (iceCubeInCupPanel.isVisible()) {
-					iceCubeInCupPanel.setVisible(false);
-					icedMilkPanel.setVisible(true);
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 1) {
+					switchPanel(icedWaterInCupPanel);
+				} else {
+					icedWater.setEnabled(false);
+					movePanelWithThread(icedWater, panels.get(currentPanelIndex), 5);
 				}
 			}
 		});
-		
+
 		bgPanel.add(icedWater);
-		
+
+		hotWater = new JButton(new ImageIcon("img/boiledwater.png"));
+		hotWater.setBounds(710, 60, 200, 170);
+		hotWater.setBorder(null);
+		hotWater.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 8) {
+					switchPanel(hotWaterPanel);
+				} else {
+					hotWater.setEnabled(false);
+					movePanelWithThread(hotWater, panels.get(currentPanelIndex), 5);
+				}
+			}
+		});
+
+		bgPanel.add(hotWater);
+
+		chocoPowder = new JButton(new ImageIcon("img/chocopowder.png"));
+		chocoPowder.setBounds(70, 260, 100, 124);
+		chocoPowder.setBorder(null);
+		chocoPowder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 4) {
+					switchPanel(icedChocoLattePanel);
+				} else if (currentPanelIndex == 10) {
+					switchPanel(hotChocoLattePanel);
+				} else {
+					chocoPowder.setEnabled(false);
+					movePanelWithThread(chocoPowder, panels.get(currentPanelIndex), 5);
+				}
+			}
+		});
+
+		bgPanel.add(chocoPowder);
+
+		matchaPowder = new JButton(new ImageIcon("img/matchaPowder.png"));
+		matchaPowder.setBounds(195, 260, 100, 124);
+		matchaPowder.setBorder(null);
+		matchaPowder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+				if (currentPanelIndex == 4) {
+					switchPanel(icedMatchaLattePanel);
+				} else if (currentPanelIndex == 10) {
+					switchPanel(hotMatchaLattePanel);
+				} else {
+					matchaPowder.setEnabled(false);
+					movePanelWithThread(matchaPowder, panels.get(currentPanelIndex), 5);
+				}
+			}
+		});
+
+		bgPanel.add(matchaPowder);
+
 		setVisible(true);
-		
-		// 버튼을 클릭했을 때 !!!!
-		  bean.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("bean"); // 원하는 문자열 전달
-	            }
-	        });
+	}
 
-	        iceCube.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("iceCube");
-	            }
-	        });
+	// 패널 전환
+	private void switchPanel(JPanel newPanel) {
+		panels.get(currentPanelIndex).setVisible(false);
+		newPanel.setVisible(true);
+		currentPanelIndex = panels.indexOf(newPanel);
+	}
 
-	        icedMilk.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("iceMilk");
-	            }
-	            
-	        });
-	        
-	        hotMilk.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("hotMilk"); // 원하는 문자열 전달
-	            }
-	        });
-	        
-	        hotWater.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("hotWater"); // 원하는 문자열 전달
-	            }
-	        });
-	        
-	        chocoPowder.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("chocoPowder"); // 원하는 문자열 전달
-	            }
-	        });
-	        
-	        matchaPowder.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("matchaPowder"); // 원하는 문자열 전달
-	            }
-	        });
-	        
-	        icedWater.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
-	                handleButtonClick("icedWater"); // 원하는 문자열 전달
-	            }
-	        });
-	        
-	        submitbt.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                // "제조 완료" 버튼을 클릭할 때, 버튼 클릭 순서를 배열로 출력
-	                for (int i = 0; i < buttonClickOrder.length; i++) {
-	                    System.out.println("Button " + (i + 1) + " Clicked: " + buttonClickOrder[i]);
-	                }
-	            }
-	        });
-	        }
-	 private static class BackgroundMusicThread extends Thread {
-	        public void run() {
-	            try {
-	                // 배경음악 파일 경로
-	                File musicFile = new File("bgm/baby-game-mane-without-laughter-8779.wav");
+	// 패널 흔들림 효과 스레드
+	private static void movePanelWithThread(JButton button, JPanel panel, int xOffset) {
+		new Thread(() -> {
+			movePanel(panel, xOffset); // 패널 x축 이동
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
+			sleep(50); // 0.05초 sleep
+			movePanel(panel, -xOffset);
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
+			sleep(50);
+			movePanel(panel, -xOffset);
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
+			sleep(50);
+			movePanel(panel, xOffset);
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
 
-	                // 배경음악 파일을 읽어옴
-	                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
 
-	                // 클립 객체 생성 및 열기
-	                Clip clip = AudioSystem.getClip();
-	                clip.open(audioInputStream);
+			SwingUtilities.invokeLater(() -> {
+				button.setEnabled(true);
+			});
+		}).start();
+	}
 
-	                // 배경음악 반복 재생
-	                clip.loop(Clip.LOOP_CONTINUOUSLY);
+	// 패널 흔들림 효과 함수
+	private static void movePanel(JPanel panel, int xOffset) {
+		SwingUtilities.invokeLater(() -> {
+			panel.setLocation(panel.getLocation().x + xOffset, panel.getLocation().y);
+		});
+	}
 
-	                // 클립 리소스 해제
-	                clip.addLineListener(event -> {
-	                    if (event.getType() == javax.sound.sampled.LineEvent.Type.STOP)
-	                        clip.close();
-	                });
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-
-	    public static void main(String[] args) {
-	        SwingUtilities.invokeLater(() -> {
-	            gameStart game = new gameStart();
-	            game.setVisible(true);
-	        });}
-
-	    // 버튼 클릭 처리를 메소드로 묶음
-	    private void handleButtonClick(String buttonText) {
-	        if (currentButtonClickIndex < buttonClickOrder.length) {
-	            buttonClickOrder[currentButtonClickIndex] = buttonText; // 버튼 텍스트 저장
-	            currentButtonClickIndex++;
-	            
-	            for (int i = 0; i < 3; i++) {
-	            	 System.out.println("Button " + (i + 1) + " Clicked: " + buttonClickOrder[i]);	            }
-	        }
-	        // 나머지 동작 처리
-	    }
-	
-
-	
+	private static void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	// 커서 변경
 	public void cursor() {
@@ -488,37 +668,18 @@ public class gameStart extends JFrame {
 		this.setCursor(cursor);
 	}
 
-	class gameStartPanel extends JPanel {
+	class GameStartPanel extends JPanel {
 		public void paint(Graphics g) {
 			g.drawImage(img, 0, 0, null);
 		}
 	}
-
-	class cupPanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
-	}
-
-	class icedMilkPanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
-	}
-
-	class icedLattePanel extends JPanel {
-		public void paint(Graphics g) {
-			g.drawImage(img, 0, 0, null);
-		}
-	}
-
 
 	// 타이머 패널
 	class TimerPanel {
 		private int secondsRemaining;
 		private Timer timer;
 		private JLabel timerLabel;
-		
+
 		public TimerPanel(int minutes, int seconds) {
 			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
 			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
@@ -532,6 +693,8 @@ public class gameStart extends JFrame {
 						timer.stop();
 						setVisible(false);
 						new gameOver();
+					}else if(secondsRemaining==30) {
+						playSound("bgm/17498E1B4BF0FC253F.wav");
 					}
 				}
 			});
@@ -545,6 +708,35 @@ public class gameStart extends JFrame {
 			return panel;
 		}
 
+	}
+
+	// 스코어 패널
+	class ScorePanel {
+		private JLabel scoreLabel;
+
+		public ScorePanel() {
+			scoreLabel = new JLabel("현재 점수 " + gameStart.gameScore + "점");
+			createScorePanel();
+		}
+
+		public void setScoreLabel() {
+			scoreLabel.setText("현재 점수 " + gameStart.gameScore + "점");
+		}
+
+		public JPanel createScorePanel() {
+			JPanel panel = new JPanel();
+
+			submitbt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setScoreLabel();
+				}
+			});
+
+			panel.add(scoreLabel);
+			panel.setBackground(Color.WHITE);
+			return panel;
+		}
 	}
 
 	// 메뉴 패널
@@ -563,6 +755,10 @@ public class gameStart extends JFrame {
 			int randomIndex = random.nextInt(strings.length);
 			String randomString = strings[randomIndex];
 			outputLabel.setText(randomString);
+		}
+
+		public String getCurrentRandomString() {
+			return outputLabel.getText();
 		}
 
 		public JPanel createRandomStringPanel() {
@@ -585,7 +781,6 @@ public class gameStart extends JFrame {
 
 			return panel;
 		}
-
 	}
 
 	// 팝업창
@@ -605,10 +800,10 @@ public class gameStart extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (clip != null && clip.isRunning()) {
-						clip.stop();
-						clip.close();
-						}
-						playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
+	                    clip.stop();
+	                    clip.close();
+	                }
+	                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 					hintFrame.setVisible(false);
 				}
 			});
@@ -624,7 +819,8 @@ public class gameStart extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	private void playSound(String soundFilePath) {
+	
+	private static void playSound(String soundFilePath) {
         try {
             File soundFile = new File(soundFilePath);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
@@ -636,4 +832,6 @@ public class gameStart extends JFrame {
             e.printStackTrace();
         }
     }
+	
+	
 }
