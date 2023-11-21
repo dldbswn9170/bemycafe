@@ -45,7 +45,7 @@ public class ID extends JFrame {
             idPanel.setOpaque(false);
             idPanel.setLayout(new BorderLayout()); // Use BorderLayout
 
-            JLabel idLabel = new JLabel("ID (MAX10)\n");
+            JLabel idLabel = new JLabel("ID (MAX10)");
             idLabel.setFont(font);
             idPanel.add(idLabel, BorderLayout.NORTH); // Add to NORTH position
 
