@@ -692,6 +692,7 @@ public class gameStart extends JFrame {
 					if (secondsRemaining <= 0) {
 						timer.stop();
 						setVisible(false);
+                                                playSound("bgm/"); //배경음악 설정
 						new gameOver();
 					}else if(secondsRemaining==30) {
 						playSound("bgm/17498E1B4BF0FC253F.wav");
@@ -707,6 +708,20 @@ public class gameStart extends JFrame {
 			panel.setBackground(Color.WHITE);
 			return panel;
 		}
+private void playBackgroundMusic(String musicFilePath) {
+        try {
+            File audioFile = new File(musicFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+            // Clip 생성 및 열기
+            backgroundMusicClip = AudioSystem.getClip();
+            backgroundMusicClip.open(audioStream);
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY); // 배경음악 반복 재생
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 	}
 
