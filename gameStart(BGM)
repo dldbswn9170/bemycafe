@@ -692,7 +692,7 @@ public class gameStart extends JFrame {
 					if (secondsRemaining <= 0) {
 						timer.stop();
 						setVisible(false);
-                                                playSound("bgm/"); //배경음악 설정
+                                                playSound("bgm/vodevil-15550 (mp3cut.net).wav"); //배경음악 설정
 						new gameOver();
 					}else if(secondsRemaining==30) {
 						playSound("bgm/17498E1B4BF0FC253F.wav");
