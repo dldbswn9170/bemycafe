@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import javax.swing.*;
 
 public class gameOver extends JFrame {
+    Clip clip;
     JButton restartbt;
     
     public gameOver() {
@@ -64,6 +65,24 @@ public class gameOver extends JFrame {
         Panel1.setLayout(null);
         Panel1.setBounds(0, 0, 922, 519);
 
+try {
+            File musicFile = new File("bgm/baby-game-mane-without-laughter-8779.wav");
+
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
+
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            clip.addLineListener(event -> {
+                if (event.getType() == javax.sound.sampled.LineEvent.Type.STOP)
+                    clip.close();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         restartbt.setBounds(340, 358, 245, 101);
         restartbt.setBorder(null);
         Panel1.add(restartbt);
@@ -113,11 +132,30 @@ public class gameOver extends JFrame {
         restartbt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                  if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
                 setVisible(false);
                 gameStart.gameScore = 0;  // 리스타트 버튼을 누를 때 현재 점수 초기화
                 new gameStart();
             }
         });
+    }
+
+//버튼 조작음 재생
+    private void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+
+            Clip soundClip = AudioSystem.getClip();
+            soundClip.open(audioInputStream);
+            soundClip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void cursor() {
