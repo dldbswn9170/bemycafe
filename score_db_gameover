@@ -1,0 +1,131 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.*;
+
+public class gameOver extends JFrame {
+    JButton restartbt;
+    
+    public gameOver() {
+        GameOverFrame();
+        cursor();
+    }
+
+    // 최고 점수 !!
+    JLabel highestScoreLabel; // 최고 점수
+    
+    public int getHighestScore() {
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/score_db?serverTimezone=UTC", "root", "1234")) {
+            System.out.println("데이터베이스 연결 성공");
+
+            String selectHighestScoreSQL = "SELECT MAX(score) AS highestScore FROM scores";
+            try (PreparedStatement selectStatement = conn.prepareStatement(selectHighestScoreSQL);
+                 ResultSet resultSet = selectStatement.executeQuery()) {
+
+                if (resultSet.next()) {
+                    return resultSet.getInt("highestScore");
+                }
+
+            } catch (Exception ex) {
+                System.out.println("오류:" + ex);
+            }
+        } catch (Exception ex) {
+            System.out.println("오류:" + ex);
+        }
+
+        return 0; 
+    }
+    
+    public void GameOverFrame() {
+        ImageIcon score = new ImageIcon("src/img/score.png");
+        restartbt = new JButton(new ImageIcon("src/img/restart-bt.png"));
+
+        Font font = new Font("고양체", Font.BOLD, 28);
+
+        setTitle("Be My Cafe");
+        setSize(922, 519);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(null);
+
+        JPanel Panel1 = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(score.getImage(), 0, 0, 922, 519, null);
+            }
+        };
+        Panel1.setLayout(null);
+        Panel1.setBounds(0, 0, 922, 519);
+
+        restartbt.setBounds(340, 358, 245, 101);
+        restartbt.setBorder(null);
+        Panel1.add(restartbt);
+
+        JLabel fscore = new JLabel("최종 스코어");
+        fscore.setBounds(340, 125, 241, 30);
+        fscore.setFont(font);
+        fscore.setHorizontalAlignment(JLabel.CENTER);
+        Panel1.add(fscore);
+
+        JLabel gameScoreLabel = new JLabel(gameStart.gameScore + " 점");
+        gameScoreLabel.setBounds(340, 200, 241, 30);
+        gameScoreLabel.setFont(font);
+        gameScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        Panel1.add(gameScoreLabel);
+
+        add(Panel1);
+
+        setVisible(true);
+
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/score_db?serverTimezone=UTC", "root", "1234");
+            System.out.println("데이터베이스 연결 성공");
+           
+            String insertScoreSQL = "INSERT INTO scores (score) VALUES (?)";
+            try (PreparedStatement scoreStatement = conn.prepareStatement(insertScoreSQL)) {
+                scoreStatement.setInt(1, gameStart.gameScore); 
+                scoreStatement.executeUpdate();
+                System.out.println("데이터베이스에 점수가 저장되었습니다.");
+            }
+
+            conn.close();
+        } catch (Exception ex) {
+            System.out.println("오류:" + ex);
+        }
+        
+        highestScoreLabel = new JLabel("최고 점수: " + getHighestScore() + " 점");
+        highestScoreLabel.setBounds(340, 275, 241, 30);
+        highestScoreLabel.setFont(font);
+        highestScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        Panel1.add(highestScoreLabel);
+
+        add(Panel1);
+
+        setVisible(true);
+
+        
+        restartbt.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                new gameStart();
+            }
+        });
+    }
+
+    public void cursor() {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Image cursorimage = tk.getImage("src/img/cursor.png");
+        Point point = new Point(10, 10);
+        Cursor cursor = tk.createCustomCursor(cursorimage, point, "");
+
+        this.setCursor(cursor);
+    }
+}
