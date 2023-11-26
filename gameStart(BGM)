@@ -717,7 +717,7 @@ private void playBackgroundMusic(String musicFilePath) {
             backgroundMusicClip = AudioSystem.getClip();
             backgroundMusicClip.open(audioStream);
             backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY); // 배경음악 반복 재생
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
