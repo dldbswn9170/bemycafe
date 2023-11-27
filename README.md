@@ -1,3 +1,5 @@
+![bemycafe-main](https://github.com/dldbswn9170/bemycafe/assets/146632841/02c1201a-57c1-4685-9d75-95a9712e2688)
+
 # ☕ Be My Cafe ☕
 ## 이윤주 강민지 최보람
 
