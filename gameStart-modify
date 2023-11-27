@@ -21,6 +21,10 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 // gameStart클래스는 이미 JFrame의 하위 클래스로 정의되어있으므로
 // gameStart 객체가 JFrame 자체
 public class GameStart extends JFrame {
+Clip clip;
+    private Clip backgroundMusicClip; // 배경음악을 재생할 Clip 객체
+
+
 	public static int gameScore = 0;
 
 	// 아이스
