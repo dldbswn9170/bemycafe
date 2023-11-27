@@ -223,6 +223,20 @@ if (clip != null && clip.isRunning()) {
 
 		setVisible(true); // 화면에 프레임 출력
 	}
+
+//버튼 조작음 재생
+    private void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
+
+            Clip soundClip = AudioSystem.getClip();
+            soundClip.open(audioInputStream);
+            soundClip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
 	public static void main(String[] args) {
 		new BeMyCafe();
