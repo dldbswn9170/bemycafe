@@ -13,6 +13,10 @@ import java.awt.event.WindowEvent;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 // gameStart클래스는 이미 JFrame의 하위 클래스로 정의되어있으므로
 // gameStart 객체가 JFrame 자체
