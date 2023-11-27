@@ -288,6 +288,11 @@ public class GameStart extends JFrame {
 		leftbt.setBorder(null);
 		leftbt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 0) {
 					switchPanel(mugPanel);
 				} else if (currentPanelIndex == 8) {
@@ -309,6 +314,11 @@ public class GameStart extends JFrame {
 		rightbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 0) {
 					switchPanel(mugPanel);
 				} else if (currentPanelIndex == 8) {
@@ -330,6 +340,11 @@ public class GameStart extends JFrame {
 		submitbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex <= 7) {
 					switchPanel(cupPanel);
 				} else {
@@ -358,6 +373,11 @@ public class GameStart extends JFrame {
 		resetbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex <= 7) {
 					switchPanel(cupPanel);
 				} else {
@@ -415,6 +435,11 @@ public class GameStart extends JFrame {
 		hintbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				popup();
 			}
 		});
@@ -425,6 +450,11 @@ public class GameStart extends JFrame {
 		bean.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 2) {
 					switchPanel(icedAmericanoPanel);
 				} else if (currentPanelIndex == 4) {
@@ -448,6 +478,11 @@ public class GameStart extends JFrame {
 		iceCube.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 0) {
 					switchPanel(iceCubeInCupPanel);
 				} else {
@@ -465,6 +500,11 @@ public class GameStart extends JFrame {
 		icedMilk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 1) {
 					switchPanel(icedMilkPanel);
 				} else {
@@ -482,6 +522,11 @@ public class GameStart extends JFrame {
 		hotMilk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 8) {
 					switchPanel(hotMilkPanel);
 				} else {
@@ -499,6 +544,11 @@ public class GameStart extends JFrame {
 		icedWater.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 1) {
 					switchPanel(icedWaterInCupPanel);
 				} else {
@@ -516,6 +566,11 @@ public class GameStart extends JFrame {
 		hotWater.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 8) {
 					switchPanel(hotWaterPanel);
 				} else {
@@ -533,6 +588,11 @@ public class GameStart extends JFrame {
 		chocoPowder.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 4) {
 					switchPanel(icedChocoLattePanel);
 				} else if (currentPanelIndex == 10) {
@@ -552,6 +612,11 @@ public class GameStart extends JFrame {
 		matchaPowder.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("bgm/1127810D49BC9CA38B.wav"); // 효과음 재생
 				if (currentPanelIndex == 4) {
 					switchPanel(icedMatchaLattePanel);
 				} else if (currentPanelIndex == 10) {
@@ -579,12 +644,17 @@ public class GameStart extends JFrame {
 	private static void movePanelWithThread(JButton button, JPanel panel, int xOffset) {
 		new Thread(() -> {
 			movePanel(panel, xOffset); // 패널 x축 이동
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
 			sleep(50); // 0.05초 sleep
 			movePanel(panel, -xOffset);
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
 			sleep(50);
 			movePanel(panel, -xOffset);
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
 			sleep(50);
 			movePanel(panel, xOffset);
+	        playSound("bgm/효과음-윈도우xp-오류.wav"); // 효과음 재생
+
 
 			SwingUtilities.invokeLater(() -> {
 				button.setEnabled(true);
@@ -643,7 +713,10 @@ public class GameStart extends JFrame {
 					if (secondsRemaining <= 0) {
 						timer.stop();
 						setVisible(false);
+                                                playSound("bgm/vodevil-15550 (mp3cut.net).wav"); //배경음악 설정
 						new GameOver();
+					}else if(secondsRemaining==30) {
+						playSound("bgm/17498E1B4BF0FC253F.wav");
 					}
 				}
 			});
@@ -663,7 +736,19 @@ public class GameStart extends JFrame {
 
 			return panel;
 		}
+private void playBackgroundMusic(String musicFilePath) {
+        try {
+            File audioFile = new File(musicFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
+            // Clip 생성 및 열기
+            backgroundMusicClip = AudioSystem.getClip();
+            backgroundMusicClip.open(audioStream);
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY); // 배경음악 반복 재생
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	}
 
 	// 스코어 패널
@@ -781,5 +866,17 @@ public class GameStart extends JFrame {
 			e.printStackTrace();
 		}
 	}
+private static void playSound(String soundFilePath) {
+        try {
+            File soundFile = new File(soundFilePath);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
 
+            Clip soundClip = AudioSystem.getClip();
+            soundClip.open(audioInputStream);
+            soundClip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        }
 }
