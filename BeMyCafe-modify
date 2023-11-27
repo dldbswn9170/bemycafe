@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class BeMyCafe extends JFrame {
 	JButton startbt;
@@ -20,6 +23,7 @@ public class BeMyCafe extends JFrame {
 	JButton backbt1;
 	JButton backbt2;
 	BufferedImage img = null;
+        Clip clip;
 
 	public BeMyCafe() {
 		BeMyCafeFrame();
@@ -115,10 +119,33 @@ public class BeMyCafe extends JFrame {
 		backbt2.setBounds(50, 419, 50, 50);
 		backbt2.setBorder(null);
 		mainRecipePanel.add(backbt2);
+//배경음
+try {
+            File musicFile = new File("C:/Users/SAMSUNG/Downloads/baby-game-mane-without-laughter-8779.wav");
+
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
+
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            clip.addLineListener(event -> {
+                if (event.getType() == javax.sound.sampled.LineEvent.Type.STOP)
+                    clip.close();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		
 		startbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+                                   if (clip != null && clip.isRunning()) {
+                                   clip.stop();
+                                   clip.close();
+                              }
+                                playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
 				mainPanel.setVisible(false);
 				mainGamePanel.setVisible(true);
 			}
@@ -127,6 +154,11 @@ public class BeMyCafe extends JFrame {
 		nextbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+                        if (clip != null && clip.isRunning()) {
+                             clip.stop();
+                             clip.close();
+                         }
+                         playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
 				mainGamePanel.setVisible(false);
 				mainItemPanel.setVisible(true);
 			}
@@ -135,6 +167,11 @@ public class BeMyCafe extends JFrame {
 		nextbt1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
 				mainItemPanel.setVisible(false);
 				mainRecipePanel.setVisible(true);
 			}
@@ -143,6 +180,11 @@ public class BeMyCafe extends JFrame {
 		nextbt2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
 				setVisible(false);
 				new GameStart();
 			}
@@ -151,6 +193,11 @@ public class BeMyCafe extends JFrame {
 		backbt1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
 				mainItemPanel.setVisible(false);
 				mainGamePanel.setVisible(true);
 			}
@@ -159,6 +206,11 @@ public class BeMyCafe extends JFrame {
 		backbt2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+if (clip != null && clip.isRunning()) {
+                    clip.stop();
+                    clip.close();
+                }
+                playSound("C:/Users/SAMSUNG//Downloads/1127810D49BC9CA38B.wav"); // 효과음 재생
 				mainRecipePanel.setVisible(false);
 				mainItemPanel.setVisible(true);
 			}
