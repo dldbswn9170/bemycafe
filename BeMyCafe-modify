@@ -13,6 +13,12 @@ import java.awt.event.WindowEvent;
 
 public class BeMyCafe extends JFrame {
 	JButton startbt;
+	JButton nextbt;
+	JButton nextbt1;
+	JButton nextbt2;
+	JButton backbt;
+	JButton backbt1;
+	JButton backbt2;
 	BufferedImage img = null;
 
 	public BeMyCafe() {
@@ -31,6 +37,9 @@ public class BeMyCafe extends JFrame {
 
 	public void BeMyCafeFrame() {
 		ImageIcon main = new ImageIcon("images/main.png");
+		ImageIcon mainGame = new ImageIcon("images/main-game.png");
+		ImageIcon mainItem = new ImageIcon("images/main-item.png");
+		ImageIcon mainRecipe = new ImageIcon("images/main-recipe.png");
 
 		setTitle("Be My Cafe"); // 프레임 타이틀
 		setSize(922, 519); // 프레임 크기
@@ -40,34 +49,129 @@ public class BeMyCafe extends JFrame {
 
 		setLayout(null);
 
-		JPanel MainPanel = new JPanel() {
+		JPanel mainPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				g.drawImage(main.getImage(), 0, 0, 922, 519, null);
 			}
 		};
-		MainPanel.setBounds(0, 0, 922, 519);
-		MainPanel.setLayout(null);
-
-		add(MainPanel);
-
+		mainPanel.setBounds(0, 0, 922, 519);
+		mainPanel.setLayout(null);
+		
 		startbt = new JButton(new ImageIcon("images/start-bt.png"));
 		startbt.setBounds(291, 358, 341, 101);
 		startbt.setBorder(null);
 
-		MainPanel.add("Center", startbt);
+		mainPanel.add("Center", startbt);
 
-		setVisible(true); // 화면에 프레임 출력
+		
+		JPanel mainGamePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(mainGame.getImage(), 0, 0, 922, 519, null);
+			}
+		};
+		mainGamePanel.setBounds(0, 0, 922, 519);
+		mainGamePanel.setLayout(null);
+		mainGamePanel.setVisible(false);
+		
+		nextbt = new JButton(new ImageIcon("images/right.png"));
+		nextbt.setBounds(847, 419, 50, 50);
+		nextbt.setBorder(null);
+		mainGamePanel.add(nextbt);
 
-		// 시작 버튼 클릭 시
+		JPanel mainItemPanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(mainItem.getImage(), 0, 0, 922, 519, null);
+			}
+		};
+		mainItemPanel.setBounds(0, 0, 922, 519);
+		mainItemPanel.setLayout(null);
+		mainItemPanel.setVisible(false);
+		
+		nextbt1 = new JButton(new ImageIcon("images/right.png"));
+		nextbt1.setBounds(847, 419, 50, 50);
+		nextbt1.setBorder(null);
+		mainItemPanel.add(nextbt1);
+		
+		backbt1 = new JButton(new ImageIcon("images/left.png"));
+		backbt1.setBounds(50, 419, 50, 50);
+		backbt1.setBorder(null);
+		mainItemPanel.add(backbt1);
+
+		JPanel mainRecipePanel = new JPanel() {
+			public void paintComponent(Graphics g) {
+				g.drawImage(mainRecipe.getImage(), 0, 0, 922, 519, null);
+			}
+		};
+		mainRecipePanel.setBounds(0, 0, 922, 519);
+		mainRecipePanel.setLayout(null);
+		mainRecipePanel.setVisible(false);
+		
+		nextbt2 = new JButton(new ImageIcon("images/right.png"));
+		nextbt2.setBounds(847, 419, 50, 50);
+		nextbt2.setBorder(null);
+		mainRecipePanel.add(nextbt2);
+		
+		backbt2 = new JButton(new ImageIcon("images/left.png"));
+		backbt2.setBounds(50, 419, 50, 50);
+		backbt2.setBorder(null);
+		mainRecipePanel.add(backbt2);
+		
 		startbt.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false); // 창 안보이게
-				new ID(); // subScreen 화면으로
+				mainPanel.setVisible(false);
+				mainGamePanel.setVisible(true);
 			}
 		});
-	}
+		
+		nextbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainGamePanel.setVisible(false);
+				mainItemPanel.setVisible(true);
+			}
+		});
 
+		nextbt1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainItemPanel.setVisible(false);
+				mainRecipePanel.setVisible(true);
+			}
+		});
+		
+		nextbt2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				new GameStart();
+			}
+		});
+		
+		backbt1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainItemPanel.setVisible(false);
+				mainGamePanel.setVisible(true);
+			}
+		});
+		
+		backbt2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mainRecipePanel.setVisible(false);
+				mainItemPanel.setVisible(true);
+			}
+		});
+		
+		add(mainRecipePanel);
+		add(mainItemPanel);
+		add(mainGamePanel);
+		add(mainPanel);
+
+		setVisible(true); // 화면에 프레임 출력
+	}
+	
 	public static void main(String[] args) {
 		new BeMyCafe();
 	}
