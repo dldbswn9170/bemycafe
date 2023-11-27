@@ -42,6 +42,7 @@ public class GameStart extends JFrame {
 	JButton rightbt;
 	JButton submitbt;
 	JButton hintbt;
+	JButton resetbt;
 	JButton bean;
 	JButton iceCube;
 	JButton icedMilk;
@@ -127,7 +128,7 @@ public class GameStart extends JFrame {
 
 		cupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(cup.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(cup.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		cupPanel.setBounds(0, 0, 922, 519);
@@ -144,7 +145,7 @@ public class GameStart extends JFrame {
 
 		iceCubeInCupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icecubeincup.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(icecubeincup.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		iceCubeInCupPanel.setBounds(0, 0, 922, 519);
@@ -153,7 +154,7 @@ public class GameStart extends JFrame {
 
 		icedWaterInCupPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedwaterincup.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(icedwaterincup.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		icedWaterInCupPanel.setBounds(0, 0, 922, 519);
@@ -171,7 +172,7 @@ public class GameStart extends JFrame {
 
 		icedAmericanoPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedamericano.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(icedamericano.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		icedAmericanoPanel.setBounds(0, 0, 922, 519);
@@ -189,7 +190,7 @@ public class GameStart extends JFrame {
 
 		icedMilkPanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedmilkincup.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(icedmilkincup.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		icedMilkPanel.setBounds(0, 0, 922, 519);
@@ -207,7 +208,7 @@ public class GameStart extends JFrame {
 
 		icedLattePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedlatte.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(icedlatte.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		icedLattePanel.setBounds(0, 0, 922, 519);
@@ -216,7 +217,7 @@ public class GameStart extends JFrame {
 
 		icedChocoLattePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedchocolatte.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(icedchocolatte.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		icedChocoLattePanel.setBounds(0, 0, 922, 519);
@@ -225,7 +226,7 @@ public class GameStart extends JFrame {
 
 		icedMatchaLattePanel = new JPanel() {
 			public void paintComponent(Graphics g) {
-				g.drawImage(icedmatchalatte.getImage(), 383, 60, 155, 305, null);
+				g.drawImage(icedmatchalatte.getImage(), 383, 80, 155, 305, null);
 			}
 		};
 		icedMatchaLattePanel.setBounds(0, 0, 922, 519);
@@ -346,16 +347,33 @@ public class GameStart extends JFrame {
 
 		bgPanel.add("Center", hintbt);
 
+		// 하단 리셋
+		resetbt = new JButton(new ImageIcon("images/resetbt.png"));
+		resetbt.setBounds(15, 425, 55, 55);
+		resetbt.setBorder(null);
+		resetbt.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (currentPanelIndex <= 7) {
+					switchPanel(cupPanel);
+				} else {
+					switchPanel(mugPanel);
+				}
+			}
+		});
+
+		bgPanel.add("Center", resetbt);
+
 		// 인게임 타이머
 		TimerPanel timerPanel = new TimerPanel(1, 30);
 		JPanel timerPanelComponent = timerPanel.createTimerPanel();
-		timerPanelComponent.setBounds(10, 10, 110, 20);
+		timerPanelComponent.setBounds(10, 10, 110, 50);
 		bgPanel.add(timerPanelComponent);
 
 		// 인게임 스코어
 		ScorePanel scorePanel = new ScorePanel();
 		JPanel scorePanelComponent = scorePanel.createScorePanel();
-		scorePanelComponent.setBounds(414, 10, 110, 20);
+		scorePanelComponent.setBounds(406, 10, 110, 50);
 		bgPanel.add(scorePanelComponent);
 
 		// 인게임 메뉴판
@@ -363,7 +381,7 @@ public class GameStart extends JFrame {
 				"차가운 녹차 라떼" };
 		RandomStringPanel menu = new RandomStringPanel(strings);
 		JPanel randomStringPanel = menu.createRandomStringPanel();
-		randomStringPanel.setBounds(802, 0, 110, 50);
+		randomStringPanel.setBounds(802, 10, 110, 50);
 		bgPanel.add(randomStringPanel);
 
 		submitbt.addActionListener(new ActionListener() {
@@ -398,7 +416,7 @@ public class GameStart extends JFrame {
 		});
 
 		bean = new JButton(new ImageIcon("images/beanbt.png"));
-		bean.setBounds(200, 80, 100, 120);
+		bean.setBounds(150, 70, 80, 80);
 		bean.setBorder(null);
 		bean.addActionListener(new ActionListener() {
 			@Override
@@ -420,8 +438,8 @@ public class GameStart extends JFrame {
 
 		bgPanel.add(bean);
 
-		iceCube = new JButton(new ImageIcon("images/icecube.png"));
-		iceCube.setBounds(30, 30, 180, 220); // 버튼 위치와 크기 설정
+		iceCube = new JButton(new ImageIcon("images/icescoop.png"));
+		iceCube.setBounds(75, 160, 190, 120); // 버튼 위치와 크기 설정
 		iceCube.setBorder(null);
 		iceCube.addActionListener(new ActionListener() {
 			@Override
@@ -438,7 +456,7 @@ public class GameStart extends JFrame {
 		bgPanel.add(iceCube);
 
 		icedMilk = new JButton(new ImageIcon("images/icedmilk.png"));
-		icedMilk.setBounds(610, 250, 100, 200);
+		icedMilk.setBounds(625, 260, 80, 160);
 		icedMilk.setBorder(null);
 		icedMilk.addActionListener(new ActionListener() {
 			@Override
@@ -505,8 +523,8 @@ public class GameStart extends JFrame {
 
 		bgPanel.add(hotWater);
 
-		chocoPowder = new JButton(new ImageIcon("images/chocopowder.png"));
-		chocoPowder.setBounds(70, 260, 100, 124);
+		chocoPowder = new JButton(new ImageIcon("images/chocopowderspoon.png"));
+		chocoPowder.setBounds(20, 300, 150, 75);
 		chocoPowder.setBorder(null);
 		chocoPowder.addActionListener(new ActionListener() {
 			@Override
@@ -524,8 +542,8 @@ public class GameStart extends JFrame {
 
 		bgPanel.add(chocoPowder);
 
-		matchaPowder = new JButton(new ImageIcon("images/matchaPowder.png"));
-		matchaPowder.setBounds(195, 260, 100, 124);
+		matchaPowder = new JButton(new ImageIcon("images/matchapowderspoon.png"));
+		matchaPowder.setBounds(185, 300, 150, 75);
 		matchaPowder.setBorder(null);
 		matchaPowder.addActionListener(new ActionListener() {
 			@Override
@@ -606,10 +624,12 @@ public class GameStart extends JFrame {
 		private int secondsRemaining;
 		private Timer timer;
 		private JLabel timerLabel;
+		private ImageIcon image = new ImageIcon("images/label.png");
 
 		public TimerPanel(int minutes, int seconds) {
 			secondsRemaining = minutes * 60 + seconds; // 분을 초로 변환하여 더한다
 			timerLabel = new JLabel(secondsRemaining / 60 + " 분 " + secondsRemaining % 60 + "초 ");
+			
 			timer = new Timer(1000, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -627,9 +647,16 @@ public class GameStart extends JFrame {
 		}
 
 		public JPanel createTimerPanel() {
-			JPanel panel = new JPanel();
+			JPanel panel = new JPanel() {
+				public void paintComponent(Graphics g) {
+					g.drawImage(image.getImage(), 0, 0, 110, 50, null);
+				}
+			};
+			timerLabel.setBounds(28, 23, 60, 15);
+
+			panel.setLayout(null);
 			panel.add(timerLabel);
-			panel.setBackground(Color.WHITE);
+
 			return panel;
 		}
 
@@ -638,6 +665,7 @@ public class GameStart extends JFrame {
 	// 스코어 패널
 	class ScorePanel {
 		private JLabel scoreLabel;
+		private ImageIcon image = new ImageIcon("images/label.png");
 
 		public ScorePanel() {
 			scoreLabel = new JLabel("현재 점수 " + GameStart.gameScore + "점");
@@ -649,7 +677,11 @@ public class GameStart extends JFrame {
 		}
 
 		public JPanel createScorePanel() {
-			JPanel panel = new JPanel();
+			JPanel panel = new JPanel() {
+				public void paintComponent(Graphics g) {
+					g.drawImage(image.getImage(), 0, 0, 110, 50, null);
+				}
+			};
 
 			submitbt.addActionListener(new ActionListener() {
 				@Override
@@ -658,8 +690,10 @@ public class GameStart extends JFrame {
 				}
 			});
 
+			scoreLabel.setBounds(10, 5, 110, 50);
+
+			panel.setLayout(null);
 			panel.add(scoreLabel);
-			panel.setBackground(Color.WHITE);
 			return panel;
 		}
 	}
@@ -668,6 +702,7 @@ public class GameStart extends JFrame {
 	class RandomStringPanel {
 		private String[] strings;
 		private JLabel outputLabel;
+		private ImageIcon image = new ImageIcon("images/label.png");
 
 		public RandomStringPanel(String[] strings) {
 			this.strings = strings;
@@ -687,7 +722,11 @@ public class GameStart extends JFrame {
 		}
 
 		public JPanel createRandomStringPanel() {
-			JPanel panel = new JPanel();
+			JPanel panel = new JPanel() {
+				public void paintComponent(Graphics g) {
+					g.drawImage(image.getImage(), 0, 0, 110, 50, null);
+				}
+			};
 
 			generateRandomString();
 
@@ -698,11 +737,10 @@ public class GameStart extends JFrame {
 				}
 			});
 
-			outputLabel.setBounds(10, 10, 100, 30);
+			outputLabel.setBounds(10, 5, 110, 50);
 
 			panel.setLayout(null); // 레이아웃을 null로 설정
 			panel.add(outputLabel);
-			panel.setBackground(Color.WHITE);
 
 			return panel;
 		}
